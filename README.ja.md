@@ -1,8 +1,8 @@
 # 画像圧縮・変換ツール / Image Compressor & Converter
 
-[![GitHub Pages](https://github.com/ttomohisa/htmlapps-image-toolkit/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/ttomohisa/htmlapps-image-toolkit/actions/workflows/deploy-pages.yml)
+[![GitHub Pages](https://github.com/ttomohisa/htmlapps-image-compressor-converter/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/ttomohisa/htmlapps-image-compressor-converter/actions/workflows/deploy-pages.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Single HTML](https://img.shields.io/badge/distribution-single%20HTML-0ea5e9)](https://ttomohisa.github.io/htmlapps-image-toolkit/)
+[![Single HTML](https://img.shields.io/badge/distribution-single%20HTML-0ea5e9)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
 [English README](README.md)
 
@@ -10,11 +10,11 @@ PNG / JPEG / WebPの圧縮・形式変換・リサイズ・比較・Base64化・
 
 ## 🚀 デモ
 
-### [GitHub Pagesで画像圧縮・変換ツールを開く](https://ttomohisa.github.io/htmlapps-image-toolkit/)
+### [GitHub Pagesで画像圧縮・変換ツールを開く](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
 GitHub Pagesから最初のHTMLを読み込んだ後、画像の読み込み・リサイズ・圧縮・形式変換・比較・Base64生成・保存は端末内で処理されます。選択した画像がアプリからサーバーへアップロードされることはありません。
 
-[![画像圧縮・変換ツールの画面](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-image-toolkit/)
+[![画像圧縮・変換ツールの画面](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
 スマートフォンでは主要操作を画面下部に配置し、変換設定はsafe areaに対応したボトムシートで表示します。Webページというより、ネイティブアプリに近い操作感を意識しています。
 
@@ -46,11 +46,11 @@ GitHub Pagesから最初のHTMLを読み込んだ後、画像の読み込み・�
 
 ### Webで使う
 
-[デモを開く](https://ttomohisa.github.io/htmlapps-image-toolkit/)だけで利用できます。インストールやアカウント登録は不要です。
+[デモを開く](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)だけで利用できます。インストールやアカウント登録は不要です。
 
 ### 単体HTMLをダウンロードして使う
 
-1. リポジトリから [`dist/index.html`](https://github.com/ttomohisa/htmlapps-image-toolkit/blob/main/dist/index.html) をダウンロードします。
+1. リポジトリから [`dist/index.html`](https://github.com/ttomohisa/htmlapps-image-compressor-converter/blob/main/dist/index.html) をダウンロードします。
 2. 最新のChromiumベースのブラウザ、Firefox、Safariなどで開きます。
 3. 画像を追加すれば、そのままブラウザー内で処理できます。
 
@@ -97,10 +97,10 @@ GitHub Pagesから最初のHTMLを読み込んだ後、画像の読み込み・�
 
 このリポジトリには、単体HTMLをビルド・検証して `dist/` をGitHub Pagesへ自動公開するワークフローが含まれています。
 
-1. リポジトリ名を `htmlapps-image-toolkit` としてGitHubへプッシュします。
+1. リポジトリ名を `htmlapps-image-compressor-converter` としてGitHubへプッシュします。
 2. **Settings → Pages → Build and deployment → Source** で **GitHub Actions** を選択します。
 3. `main` ブランチへプッシュするか、Actions画面からPages公開ワークフローを手動実行します。
-4. ビルド成功後、`https://ttomohisa.github.io/htmlapps-image-toolkit/` で公開されます。
+4. ビルド成功後、`https://ttomohisa.github.io/htmlapps-image-compressor-converter/` で公開されます。
 
 GitHub Pagesがまだ有効化されていない場合は、ビルド自体を成功させたままデプロイだけをスキップし、ActionsのSummaryに設定方法を表示する構成です。
 

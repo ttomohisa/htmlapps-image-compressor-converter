@@ -1,8 +1,8 @@
 # Image Compressor & Converter
 
-[![GitHub Pages](https://github.com/ttomohisa/htmlapps-image-toolkit/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/ttomohisa/htmlapps-image-toolkit/actions/workflows/deploy-pages.yml)
+[![GitHub Pages](https://github.com/ttomohisa/htmlapps-image-compressor-converter/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/ttomohisa/htmlapps-image-compressor-converter/actions/workflows/deploy-pages.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Single HTML](https://img.shields.io/badge/distribution-single%20HTML-0ea5e9)](https://ttomohisa.github.io/htmlapps-image-toolkit/)
+[![Single HTML](https://img.shields.io/badge/distribution-single%20HTML-0ea5e9)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
 [日本語版 README](README.ja.md)
 
@@ -10,11 +10,11 @@ A privacy-focused, single-HTML image compressor and converter for PNG, JPEG and 
 
 ## 🚀 Live demo
 
-### [Open Image Compressor & Converter on GitHub Pages](https://ttomohisa.github.io/htmlapps-image-toolkit/)
+### [Open Image Compressor & Converter on GitHub Pages](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
 GitHub Pages delivers the initial HTML. After it loads, image decoding, resizing, compression, format conversion, comparison, Base64 generation and export are processed locally on your device. Images you select are not uploaded by the app.
 
-[![Image Compressor & Converter screenshot](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-image-toolkit/)
+[![Image Compressor & Converter screenshot](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
 The mobile layout is designed to feel closer to a native app, with primary actions fixed near the bottom of the screen and conversion settings shown as a safe-area-aware bottom sheet.
 
@@ -46,11 +46,11 @@ The mobile layout is designed to feel closer to a native app, with primary actio
 
 ### Use the web demo
 
-Just [open the demo](https://ttomohisa.github.io/htmlapps-image-toolkit/). No installation or account is required.
+Just [open the demo](https://ttomohisa.github.io/htmlapps-image-compressor-converter/). No installation or account is required.
 
 ### Use the standalone HTML
 
-1. Download [`dist/index.html`](https://github.com/ttomohisa/htmlapps-image-toolkit/blob/main/dist/index.html) from this repository.
+1. Download [`dist/index.html`](https://github.com/ttomohisa/htmlapps-image-compressor-converter/blob/main/dist/index.html) from this repository.
 2. Open it in a current Chromium-based browser, Firefox, or Safari.
 3. Add one or more images and process them entirely in the browser.
 
@@ -97,10 +97,10 @@ For web-development workflows, the app can generate:
 
 The repository includes a workflow that builds the standalone HTML, verifies its offline/runtime-network constraints and deploys `dist/` to GitHub Pages.
 
-1. Push the repository to GitHub as `htmlapps-image-toolkit`.
+1. Push the repository to GitHub as `htmlapps-image-compressor-converter`.
 2. Open **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**.
 3. Push to `main`, or manually run the Pages deployment workflow from the Actions tab.
-4. After a successful deployment, the demo is available at `https://ttomohisa.github.io/htmlapps-image-toolkit/`.
+4. After a successful deployment, the demo is available at `https://ttomohisa.github.io/htmlapps-image-compressor-converter/`.
 
 If GitHub Pages has not been enabled yet, the workflow keeps the successful build result and skips deployment with setup guidance instead of failing at `configure-pages`.
 
