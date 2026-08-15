@@ -1,0 +1,10 @@
+{
+    "schemaVersion":  1,
+    "source":  "index.html",
+    "output":  "index.self-extract.html",
+    "compression":  "gzip",
+    "sourceBytes":  93853,
+    "outputBytes":  34288,
+    "sourceSha256":  "20c4e32a8f76c573bea3e7d24544a7bf72a47bd5a756f2b4b201fc28bb60b2d0",
+    "outputSha256":  "5a41ec58b010d092b32b4f75d2bf08146964832973580ef889046b00b9175af0"
+}

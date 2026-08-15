@@ -1,0 +1,1 @@
+$ErrorActionPreference="Stop";$Root=Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path);& (Join-Path $Root "build-standalone.ps1");Write-Host "[Image Compressor & Converter] Repository check passed." -ForegroundColor Green

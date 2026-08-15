@@ -1,0 +1,25 @@
+name: Build standalone HTML
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build and verify
+        shell: pwsh
+        run: ./scripts/check-repository.ps1
+      - name: Upload build
+        uses: actions/upload-artifact@v7
+        with:
+          name: image-toolkit-standalone
+          path: |
+            dist/index.html
+            dist/index.self-extract.html
+            dist/dependency-manifest.json
+            dist/self-extract-manifest.json
+          if-no-files-found: error

@@ -1,0 +1,13 @@
+{
+    "schemaVersion":  1,
+    "builder":  "htmlapps-template-compatible/1.0",
+    "generatedAtUtc":  "2026-08-15T17:21:00.9320181Z",
+    "app":  {
+                "name":  "Image Compressor \u0026 Converter",
+                "slug":  "htmlapps-image-toolkit",
+                "version":  "1.0"
+            },
+    "dependencies":  [
+
+                     ]
+}
