@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Image compressor">
+  <rect width="64" height="64" rx="16" fill="#16624f"/>
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <!-- vise screw -->
+    <path d="M22 10h20M32 10v7" stroke-width="4"/>
+    <!-- vise jaws -->
+    <rect x="15" y="17" width="34" height="6" rx="2" fill="#fff" stroke="none"/>
+    <rect x="15" y="47" width="34" height="6" rx="2" fill="#fff" stroke="none"/>
+    <!-- compressed image -->
+    <rect x="17" y="23" width="30" height="24" rx="3.5" stroke-width="3"/>
+    <circle cx="25" cy="31" r="2.7" fill="#fff" stroke="none"/>
+    <path d="M20 43l7-7 5 5 4-4 8 6" stroke-width="3"/>
+  </g>
+</svg>
