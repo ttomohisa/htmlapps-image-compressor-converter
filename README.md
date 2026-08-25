@@ -6,7 +6,7 @@
 
 [日本語版 README](README.ja.md)
 
-A privacy-focused, single-HTML image compressor and converter for PNG, JPEG and WebP. Compress, resize, convert, compare and export images without uploading the selected files to a server.
+A privacy-focused, single-HTML image optimization workbench for PNG, JPEG and WebP. Smart Optimize compares formats and quality locally, while target-size mode can reduce both quality and dimensions to hit practical upload limits.
 
 ## 🚀 Live demo
 
@@ -14,33 +14,32 @@ A privacy-focused, single-HTML image compressor and converter for PNG, JPEG and 
 
 GitHub Pages delivers the initial HTML. After it loads, image decoding, resizing, compression, format conversion, comparison, Base64 generation and export are processed locally on your device. Images you select are not uploaded by the app.
 
-[![Image Compressor & Converter screenshot](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
+### Start screen
+
+[![Image Compressor & Converter start screen](assets/screenshot-start-en.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
+
+### Workbench
+
+[![Image Compressor & Converter workbench](assets/screenshot-en.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
 The mobile layout is designed to feel closer to a native app, with primary actions fixed near the bottom of the screen and conversion settings shown as a safe-area-aware bottom sheet.
 
-![Mobile UI](assets/screenshot-mobile.png)
+![Mobile UI](assets/screenshot-mobile-en.png)
 
 ## Features
 
-- Read and export PNG, JPEG and WebP
-- Auto format recommendation based on the source image
-- Resize by maximum width / height while preserving aspect ratio
-- JPEG / WebP quality control
-- Target-file-size mode that searches for a suitable JPEG / WebP quality
-- Batch conversion for multiple images
-- Folder-aware ZIP export that preserves relative paths
-- Before / After slider for source and converted images
-- Amplified pixel-difference view for subtle compression changes
-- JPEG / PNG / WebP format and file-size comparison
-- Large preview with 100–400% zoom and pan / pinch gestures
-- Editable output filenames with automatic extension handling
-- Base64, HTML, CSS, Markdown and `<picture>` snippet generation
-- Web-assets ZIP with WebP plus JPEG / PNG fallback and `snippet.html`
-- Metadata removal through Canvas re-encoding
-- Japanese and English UI in the same HTML
-- Desktop **Settings → Convert → Save** workflow
-- Native-app-like mobile bottom action bar and settings sheet
-- No runtime network access
+- **Start → Workbench UI**: a simple purpose-first start screen becomes a three-column image / preview / optimization workbench
+- **Smart Optimize**: locally compares JPEG / WebP / PNG candidates and uses a lightweight visual-difference score to choose the smallest acceptable output
+- **Adaptive target size**: searches quality first and progressively reduces dimensions when needed to reach the requested KB limit
+- Purpose presets for websites, photos, screenshots, upload limits, README assets, transparent images and format-only conversion
+- Automatically keeps the source file when conversion would make it larger (can be disabled for intentional format conversion)
+- On desktop, paste screenshots and copied images directly with **Ctrl+V**; file picking supports multiple images on desktop and mobile
+- Batch summary showing total source size, output size and savings
+- Before / After slider, amplified difference view and 100–400% large preview
+- JPEG / PNG / WebP comparison, editable filenames and folder-aware ZIP export
+- Dedicated **Export** dialog for Base64, HTML, CSS, Markdown, `<picture>` and Web-assets ZIP
+- Japanese / English UI in the same standalone HTML
+- **Fully local processing** after the HTML is loaded; runtime network access is blocked with `connect-src 'none'`
 
 ## Quick start
 
@@ -67,14 +66,13 @@ Python, Node.js and a local web server are not required for the normal build. Th
 
 ## Usage
 
-1. Add one or more PNG, JPEG or WebP images.
-2. Choose **Auto** or select an output format manually.
-3. Adjust dimensions, quality or target file size when needed.
-4. Select **Convert**.
-5. Review the output size and Before / After preview.
-6. Use **Highlight differences** when compression changes are too subtle to see normally.
-7. Edit the output filename if needed.
-8. Select **Save** for the current image, or export converted images together as a ZIP.
+1. Add one or more PNG, JPEG or WebP images. On desktop, you can also paste screenshots or copied images with **Ctrl+V**. The file picker supports multiple selection on desktop and mobile.
+2. Choose a purpose such as **Website**, **Photo**, **Screenshot** or **Size limit**.
+3. Run **Smart Optimize**. The app compares candidate formats / quality levels locally and picks the smallest result that meets its visual threshold.
+4. For upload constraints, enable **Target size** and enter the maximum KB. Choose **Appearance first** or **Size first**.
+5. Review Before / After, the difference view and batch savings.
+6. Save the current image, save the batch as ZIP, or open **Export** for web/developer output.
+7. Use **Advanced settings** when you need an exact format, resize rule or quality ceiling.
 
 ### Before / After comparison
 
@@ -148,7 +146,7 @@ The GitHub Pages version requires the initial HTML request. After loading, image
 
 ## Limitations
 
-- PNG output is lossless, so the JPEG / WebP quality slider and target-file-size search do not apply to PNG.
+- PNG output is lossless. In target-size mode, PNG can only become smaller by reducing dimensions; JPEG / WebP can adjust both quality and dimensions.
 - WebP encoding support depends on the browser's Canvas implementation.
 - Exact compressed size can differ between browsers because encoding is browser-provided.
 - Very large images or large batches can consume substantial device memory.

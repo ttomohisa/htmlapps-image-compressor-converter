@@ -2,11 +2,21 @@
   "$schema": "./schemas/app-config.schema.json",
   "name": "Image Compressor & Converter",
   "nameJa": "画像圧縮・変換ツール",
-  "slug": "htmlapps-image-toolkit",
-  "version": "1.0",
-  "description": "Compress, convert, resize and prepare images for the web entirely in your browser.",
-  "descriptionJa": "圧縮・変換・リサイズ・Base64・Web素材生成までブラウザー内だけで行う画像ツールです。",
+  "slug": "htmlapps-image-compressor-converter",
+  "version": "1.1.0",
+  "description": "Smart-compress, convert, resize and prepare images for the web entirely in your browser.",
+  "descriptionJa": "Smart Optimize・目標容量・圧縮・変換・リサイズ・Web素材生成までブラウザー内だけで行う画像ツールです。",
   "defaultLanguage": "auto",
-  "repository": {"owner": "ttomohisa", "name": "htmlapps-image-toolkit"},
-  "build": {"output": "dist/index.html", "blockRuntimeNetwork": true, "selfExtract": {"enabled": true, "output": "dist/index.self-extract.html"}}
+  "repository": {
+    "owner": "ttomohisa",
+    "name": "htmlapps-image-compressor-converter"
+  },
+  "build": {
+    "output": "dist/index.html",
+    "blockRuntimeNetwork": true,
+    "selfExtract": {
+      "enabled": true,
+      "output": "dist/index.self-extract.html"
+    }
+  }
 }
