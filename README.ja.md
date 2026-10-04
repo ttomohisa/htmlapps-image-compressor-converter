@@ -28,6 +28,8 @@ GitHub Pagesから最初のHTMLを読み込んだ後、画像の読み込み・�
 
 ## 主な機能
 
+- 選択画像だけを確認後に削除し、ほかの画像や変換結果を維持
+
 - **Start → Workbench UI**：最初は用途を選ぶシンプルな画面、画像追加後は「画像一覧 / 比較プレビュー / 最適化」の3カラムへ変化
 - **Smart Optimize**：JPEG / WebP / PNGと複数の品質候補をローカルで比較し、簡易的な見た目スコアを満たす中から最小サイズを採用
 - **強化した目標容量モード**：品質だけで届かない場合は解像度も段階的に下げ、指定KB以下を探索
@@ -168,3 +170,5 @@ GitHub Pages版では最初のHTMLを取得する通信だけ発生します。�
 Copyright © 2026 ttomohisa
 
 このプロジェクトは [MIT License](LICENSE) で公開されています。
+
+リポジトリ検証（`scripts/check-repository.ps1`）は依存追加なしの回帰テストも実行するため、Node.js 20以降が必要です。`node --test tests/*.test.mjs` で直接実行できます。

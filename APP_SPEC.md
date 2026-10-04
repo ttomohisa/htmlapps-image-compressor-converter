@@ -36,6 +36,8 @@
 - Export dialog for Base64 Data URL, HTML, CSS, Markdown, `<picture>` and Web-assets ZIP.
 - Japanese / English UI in the same standalone HTML.
 - Persist only settings/language in LocalStorage; never persist image bytes.
+- Remove the selected image after in-app confirmation naming its captured source path; keep every other image, edited filename, relative path, output and setting. Select the next image (otherwise the previous one), or return to Start after the last removal.
+- Disable removal during batch conversion; ignore delayed metadata, comparison, difference and snippet results for removed images or stale selections.
 - Use in-app confirmation for destructive clear.
 
 ## Privacy

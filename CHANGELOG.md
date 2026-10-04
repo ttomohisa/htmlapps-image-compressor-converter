@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added confirmed removal of the selected image while preserving the rest of the batch and its outputs.
+- Prevented delayed preview, comparison and export snippets from restoring removed or previously selected images.
+- Added dependency-free regression tests for removal, resource cleanup, selection, filenames and ZIP content.
+
 ## 1.1.0 - 2026-08-25
 
 - Redesigned the app into a purpose-first Start screen and three-column Workbench.

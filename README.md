@@ -28,6 +28,8 @@ The mobile layout is designed to feel closer to a native app, with primary actio
 
 ## Features
 
+- Remove one selected image with confirmation, retaining all other images and converted results
+
 - **Start → Workbench UI**: a simple purpose-first start screen becomes a three-column image / preview / optimization workbench
 - **Smart Optimize**: locally compares JPEG / WebP / PNG candidates and uses a lightweight visual-difference score to choose the smallest acceptable output
 - **Adaptive target size**: searches quality first and progressively reduces dimensions when needed to reach the requested KB limit
@@ -168,3 +170,5 @@ Bug reports and feature proposals are welcome through GitHub Issues. See [CONTRI
 Copyright © 2026 ttomohisa
 
 Licensed under the [MIT License](LICENSE).
+
+Repository checks (`scripts/check-repository.ps1`) also run the dependency-free regression suite and require Node.js 20 or newer. Run it directly with `node --test tests/*.test.mjs`.
