@@ -1,10 +1,10 @@
 {
-    "schemaVersion":  1,
-    "source":  "index.html",
-    "output":  "index.self-extract.html",
-    "compression":  "gzip",
-    "sourceBytes":  123265,
-    "outputBytes":  43292,
-    "sourceSha256":  "c7b97d97316e2904feae114988591baa09a2a2c284835a5d6c27a01bacadd57a",
-    "outputSha256":  "e9aa8f5bdd3059e002234543c9f7cce3ba3e402db0732a77f581c715459288dc"
+  "schemaVersion": 1,
+  "source": "index.html",
+  "output": "index.self-extract.html",
+  "compression": "gzip",
+  "sourceBytes": 126981,
+  "outputBytes": 44928,
+  "sourceSha256": "7565a92a6d93cebbc47829f0576ddbbd60452c2583b295df2ed3ae7f16b9c80c",
+  "outputSha256": "9743025727b6abeeea63a9b12f6d294f0d201f1d049d25568e3f2ac3f6955c24"
 }
