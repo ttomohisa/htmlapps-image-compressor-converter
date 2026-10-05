@@ -33,6 +33,11 @@
 - Large preview dialog with 100–400% zoom, drag-to-pan, pinch zoom and Before / After comparison.
 - Editable output filename while the app controls the matching extension.
 - Single-image save and batch ZIP; batch ZIP preserves relative folder paths.
+- A separate per-image checkbox chooses inclusion in **Save checked ZIP**, independently of preview selection and Remove selected. New stable image IDs default to included; inclusion stays in memory through rerenders, language changes, filename edits and reprocessing, and is removed with that image or clear-all.
+- All / None applies only to images with an available output. Waiting/error images without output are omitted; an existing output retained after a failed retry remains eligible under the existing conversion policy.
+- Show the checked eligible count. Disable checked ZIP, checkboxes and All / None during batch processing; disable checked ZIP at zero, and All / None when no outputs exist. Restore these states after completion or cancellation.
+- Checked export always downloads a ZIP, including one output, with membership, paths and Blob identities captured before asynchronous ZIP reads. Existing save-all and single-image actions remain independent, including direct save for one output.
+- ZIP creation assigns deterministic unique paths for exact collisions after existing safe-path normalization. Reserve original names before allocating numbered suffixes, preserve order/folders/extensions/payload bytes, and never modify the edited output names. ZIP path identity remains case-sensitive; broader extractor portability is outside this behavior.
 - Export dialog for Base64 Data URL, HTML, CSS, Markdown, `<picture>` and Web-assets ZIP.
 - Japanese / English UI in the same standalone HTML.
 - Persist only settings/language in LocalStorage; never persist image bytes.
@@ -74,6 +79,7 @@
 - Batch summary shows source size, output size and total savings after conversion.
 - Before / After divider remains visible while comparison is active, and the difference view can be toggled without changing the output.
 - Mobile settings close after manual conversion is triggered.
-- Save filename edits are reflected in single downloads and batch ZIP paths.
+- Save filename edits are reflected in single downloads and batch ZIP paths. Same-stem PNG/JPEG conversions and manual duplicate names retain every output in ZIPs, including when a natural numbered-suffix name exists.
+- Checked export controls remain reachable in the image panel on mobile without replacing the fixed primary action bar. Checkbox keyboard activation is separate from the preview row. Japanese and English help explain checked export.
 - Export dialog provides the documented web/developer outputs.
 - `assets/favicon.svg`, the embedded favicon and the header app icon use the same visual design.
