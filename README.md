@@ -28,6 +28,9 @@ The mobile layout is designed to feel closer to a native app, with primary actio
 
 ## Features
 
+- Export only checked outputs as ZIP with per-image checkboxes, All / None and a live count
+- Collision-safe ZIP names preserve every image when converted or edited names match
+
 - Remove one selected image with confirmation, retaining all other images and converted results
 
 - **Start → Workbench UI**: a simple purpose-first start screen becomes a three-column image / preview / optimization workbench
@@ -75,6 +78,12 @@ Python, Node.js and a local web server are not required for the normal build. Th
 5. Review Before / After, the difference view and batch savings.
 6. Save the current image, save the batch as ZIP, or open **Export** for web/developer output.
 7. Use **Advanced settings** when you need an exact format, resize rule or quality ceiling.
+
+### Save checked outputs
+
+Use the checkbox beside each image to include its available output, then choose **Save checked ZIP**. **All / None** changes only available outputs. New images start checked, and their checks become eligible after conversion. Checks stay separate from the preview and **Remove selected**, survive reprocessing, and are kept only for this session. The dedicated action always creates a ZIP, even for one image; the existing current-image and all-output actions keep their behavior.
+
+The archive keeps image order and relative folders. Exact duplicate paths receive numbered suffixes such as `photo (3).webp`; existing names such as `photo (2).webp` are reserved. Edited output names remain unchanged. ZIP paths are case-sensitive.
 
 ### Before / After comparison
 

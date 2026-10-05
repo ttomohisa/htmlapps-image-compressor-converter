@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added per-image ZIP inclusion checkboxes, All / None, checked-output counts and a dedicated Save checked ZIP action, independent of preview and removal selection.
+- Fixed duplicate ZIP paths from same-stem conversions or filename edits; deterministic numbered suffixes preserve every output and reserve intentionally named suffixes.
+- Added source/root/readable/self-extract regression coverage for checked exports, output snapshots and exact ZIP entry bytes.
+
 - Added confirmed removal of the selected image while preserving the rest of the batch and its outputs.
 - Prevented delayed preview, comparison and export snippets from restoring removed or previously selected images.
 - Added dependency-free regression tests for removal, resource cleanup, selection, filenames and ZIP content.
