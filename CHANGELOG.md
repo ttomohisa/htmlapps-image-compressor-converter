@@ -1,6 +1,11 @@
 # Changelog
 
-## Unreleased
+## 1.1.1 - 2026-10-06
+
+- Localized the header Help accessible name and tooltip when switching languages.
+- Added meaningful target-language accessible names and tooltips to the existing `EN` / `JA` switch.
+- Preserved the existing local-processing badges and updated the canonical patch version once.
+- Added repeated language-switch regression coverage for header accessibility and version synchronization.
 
 - Added per-image ZIP inclusion checkboxes, All / None, checked-output counts and a dedicated Save checked ZIP action, independent of preview and removal selection.
 - Fixed duplicate ZIP paths from same-stem conversions or filename edits; deterministic numbered suffixes preserve every output and reserve intentionally named suffixes.
