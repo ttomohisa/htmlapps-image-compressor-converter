@@ -3,7 +3,7 @@
 ## Product identity
 
 - **Name:** 画像圧縮・変換ツール / Image Compressor & Converter
-- **Version:** 1.1.0
+- **Version:** 1.1.1
 - **Purpose:** Find a practical image output by comparing format, quality and dimensions entirely in the browser.
 - **Release artifacts:** `dist/index.html` and `dist/index.self-extract.html`
 - **Runtime network:** blocked with CSP `connect-src 'none'`
@@ -67,7 +67,7 @@
 
 ## Acceptance criteria
 
-- `app.config.json` and visible UI report version `1.1.0`.
+- `app.config.json` and visible UI report version `1.1.1`.
 - No unresolved build placeholders or prohibited external runtime assets exist in generated artifacts.
 - `dist/index.html` works when opened directly with `file://` in a current browser.
 - Core conversion, Smart Optimize, target-size mode, comparison, Base64 and ZIP functions work without runtime network access.

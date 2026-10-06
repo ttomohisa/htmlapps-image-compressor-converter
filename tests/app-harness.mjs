@@ -20,6 +20,8 @@ function app(items = fixtures()) {
   class Element {
     constructor() { this.value = ''; this.innerHTML = ''; this.textContent = ''; this.dataset = {}; this.style = {}; this.hidden = false; this.disabled = false; this.events = {}; this.open = false; this.classes = new Set(); this.classList = { add: x => this.classes.add(x), remove: x => this.classes.delete(x), contains: x => this.classes.has(x), toggle: (x, on) => on ? this.classes.add(x) : this.classes.delete(x) }; }
     addEventListener(type, fn) { (this.events[type] ||= []).push(fn); }
+    setAttribute(key, value) { (this.attributes ||= {})[key] = String(value); }
+    getAttribute(key) { return this.attributes?.[key] ?? null; }
     dispatch(type) { for (const fn of this.events[type] || []) fn({ target: this, preventDefault() {} }); }
     removeAttribute(key) { delete this[key]; }
     focus() { document.activeElement = this; }
