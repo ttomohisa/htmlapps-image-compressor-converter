@@ -183,3 +183,5 @@ Copyright © 2026 ttomohisa
 このプロジェクトは [MIT License](LICENSE) で公開されています。
 
 リポジトリ検証（`scripts/check-repository.ps1`）は依存追加なしの回帰テストも実行するため、Node.js 20以降が必要です。`node --test tests/*.test.mjs` で直接実行できます。
+
+画像の読み込み後も、拡大プレビューの操作と書き出しコードが狭い画面内に収まります。確認画面は見出しを残し、本文と操作ボタンをスクロールできます。

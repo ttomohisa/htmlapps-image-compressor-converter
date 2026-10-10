@@ -68,7 +68,8 @@
 ## Responsive dialog audit (v1.1.2)
 
 - Native modal dialogs lock background page scrolling while open and restore normal scrolling on dismissal.
-- Help keeps its heading and Close fixed while only its body scrolls within the available viewport and safe areas. Do not apply this shell allocation to untested Export, Viewer or Confirm dialogs.
+- Help keeps its heading and Close fixed while only its body scrolls within the available viewport and safe areas. Preserve the existing Export and Viewer shell allocations. Confirmation uses its own fixed header and internally scrolling body so short/narrow action buttons remain reachable.
+- The narrow Viewer toolbar reserves its existing button widths while its zoom range can shrink; the comparison range stays inside the toolbar. Export grid/code content has zero-minimum containment instead of forcing horizontal overflow.
 - At widths up to 420px, the title/version wrap without shrinking language or Help actions. Preserve the existing local-processing shield and brand artwork.
 - Acceptance requires actual short/narrow JA/EN bounds, tail reachability, wheel, Tab and dismissal/focus checks. Source contracts do not establish native geometry. Full image conversion, other dialogs/settings and actual saves remain separate audit gates.
 

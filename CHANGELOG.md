@@ -5,7 +5,8 @@
 - Keep background pages still while native dialogs are open.
 - Keep Help Close visible and its final content reachable in short/narrow viewports.
 - Wrap narrow title/version text while preserving header actions.
-- Add responsive layout contracts to all canonical artifact checks; preserve image processing and existing untested dialog/settings behavior.
+- Keep narrow Viewer controls and Export code inside their dialog widths; let confirmation content scroll below its fixed header.
+- Add responsive layout contracts to all canonical artifact checks; preserve image processing and existing settings behavior.
 
 ## 1.1.1 - 2026-10-06
 
