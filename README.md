@@ -28,6 +28,8 @@ The mobile layout is designed to feel closer to a native app, with primary actio
 
 ## Features
 
+- Help keeps Close visible while its content scrolls in short viewports; open dialogs lock background scrolling, and narrow headers keep the version visible.
+
 - Export only checked outputs as ZIP with per-image checkboxes, All / None and a live count
 - Collision-safe ZIP names preserve every image when converted or edited names match
 

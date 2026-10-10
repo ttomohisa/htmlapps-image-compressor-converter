@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.2 - 2026-10-10
+
+- Keep background pages still while native dialogs are open.
+- Keep Help Close visible and its final content reachable in short/narrow viewports.
+- Wrap narrow title/version text while preserving header actions.
+- Add responsive layout contracts to all canonical artifact checks; preserve image processing and existing untested dialog/settings behavior.
+
 ## 1.1.1 - 2026-10-06
 
 - Localized the header Help accessible name and tooltip when switching languages.

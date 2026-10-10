@@ -3,7 +3,7 @@
 ## Product identity
 
 - **Name:** 画像圧縮・変換ツール / Image Compressor & Converter
-- **Version:** 1.1.1
+- **Version:** 1.1.2
 - **Purpose:** Find a practical image output by comparing format, quality and dimensions entirely in the browser.
 - **Release artifacts:** `dist/index.html` and `dist/index.self-extract.html`
 - **Runtime network:** blocked with CSP `connect-src 'none'`
@@ -65,9 +65,16 @@
 - The mobile settings sheet closes when “Convert with settings” is executed.
 - Visible focus states and `prefers-reduced-motion` support are required.
 
+## Responsive dialog audit (v1.1.2)
+
+- Native modal dialogs lock background page scrolling while open and restore normal scrolling on dismissal.
+- Help keeps its heading and Close fixed while only its body scrolls within the available viewport and safe areas. Do not apply this shell allocation to untested Export, Viewer or Confirm dialogs.
+- At widths up to 420px, the title/version wrap without shrinking language or Help actions. Preserve the existing local-processing shield and brand artwork.
+- Acceptance requires actual short/narrow JA/EN bounds, tail reachability, wheel, Tab and dismissal/focus checks. Source contracts do not establish native geometry. Full image conversion, other dialogs/settings and actual saves remain separate audit gates.
+
 ## Acceptance criteria
 
-- `app.config.json` and visible UI report version `1.1.1`.
+- `app.config.json` and visible UI report version `1.1.2`.
 - No unresolved build placeholders or prohibited external runtime assets exist in generated artifacts.
 - `dist/index.html` works when opened directly with `file://` in a current browser.
 - Core conversion, Smart Optimize, target-size mode, comparison, Base64 and ZIP functions work without runtime network access.
