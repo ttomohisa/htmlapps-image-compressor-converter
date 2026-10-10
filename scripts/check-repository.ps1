@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$Tests = @((Join-Path $Root "tests/remove-selected.test.mjs"), (Join-Path $Root "tests/checked-export.test.mjs"), (Join-Path $Root "tests/header.test.mjs"))
+$Tests = @((Join-Path $Root "tests/remove-selected.test.mjs"), (Join-Path $Root "tests/checked-export.test.mjs"), (Join-Path $Root "tests/header.test.mjs"), (Join-Path $Root "tests/dialog-layout.test.mjs"))
 $PreviousSource = $env:IMAGE_SOURCE
 try {
     Remove-Item Env:IMAGE_SOURCE -ErrorAction SilentlyContinue

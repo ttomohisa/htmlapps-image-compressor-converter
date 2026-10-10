@@ -5,13 +5,13 @@ import { app, html } from './app-harness.mjs';
 
 test('header version matches the once-incremented canonical version and privacy is preserved', () => {
   const config = JSON.parse(readFileSync(new URL('../app.config.json', import.meta.url), 'utf8'));
-  assert.equal(config.version, '1.1.1');
-  assert.match(html, /id="versionBadge">v1\.1\.1<\/span>/);
+  assert.equal(config.version, '1.1.2');
+  assert.match(html, /id="versionBadge">v1\.1\.2<\/span>/);
   assert.match(html, /"完全ローカル処理"/);
   assert.match(html, /"Fully local processing"/);
   const h = app([]);
   h.setLang('ja');
-  assert.equal(h.E.versionBadge.textContent, 'v1.1.1');
+  assert.equal(h.E.versionBadge.textContent, 'v1.1.2');
 });
 
 test('header controls localize accessible names through repeated bound language clicks', () => {
@@ -27,7 +27,7 @@ test('header controls localize accessible names through repeated bound language 
     assert.equal(h.E.languageButton.title, h.E.languageButton.getAttribute('aria-label'));
     assert.equal(h.E.helpButton.getAttribute('aria-label'), japanese ? '使い方と注意事項' : 'How to use & notes');
     assert.equal(h.E.helpButton.title, h.E.helpButton.getAttribute('aria-label'));
-    assert.equal(h.E.versionBadge.textContent, 'v1.1.1');
+    assert.equal(h.E.versionBadge.textContent, 'v1.1.2');
     assert.equal(h.saved.get('image-toolkit.lang'), language);
     h.S.items.forEach((item, index) => assert.equal(item.output, outputs[index]));
     h.E.languageButton.click();
