@@ -28,6 +28,8 @@ The mobile layout is designed to feel closer to a native app, with primary actio
 
 ## Features
 
+- Help keeps Close visible while its content scrolls in short viewports; open dialogs lock background scrolling, and narrow headers keep the version visible.
+
 - Export only checked outputs as ZIP with per-image checkboxes, All / None and a live count
 - Collision-safe ZIP names preserve every image when converted or edited names match
 
@@ -181,3 +183,5 @@ Copyright © 2026 ttomohisa
 Licensed under the [MIT License](LICENSE).
 
 Repository checks (`scripts/check-repository.ps1`) also run the dependency-free regression suite and require Node.js 20 or newer. Run it directly with `node --test tests/*.test.mjs`.
+
+The loaded large-preview controls and Export code panel also stay inside narrow dialog widths. Confirmation messages/actions scroll beneath a fixed header on short screens.
