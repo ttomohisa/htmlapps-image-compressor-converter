@@ -91,3 +91,10 @@
 - Checked export controls remain reachable in the image panel on mobile without replacing the fixed primary action bar. Checkbox keyboard activation is separate from the preview row. Japanese and English help explain checked export.
 - Export dialog provides the documented web/developer outputs.
 - `assets/favicon.svg`, the embedded favicon and the header app icon use the same visual design.
+
+## Mobile footer and Help build information
+
+- Hide only the informational page footer at the existing 720px smartphone breakpoint. Preserve functional bottom controls.
+- Keep the existing build information as the final item of Help’s independently scrollable body, with its unique IDs and localization unchanged. Build information remains available at every width.
+- Use “Fully local processing” for the exact 完全ローカル処理 label; preserve detailed privacy explanations.
+- Focused PR Chromium checks cover the official generated variants in JA/EN at desktop, breakpoint, narrow and short sizes, final Help reachability, badge overflow, dismissal, errors and runtime network. Keep four screenshots plus failure evidence. These layout checks are not a new full main-flow audit.

@@ -59,3 +59,25 @@ test('confirmation keeps its header fixed while its own body scrolls',()=>{
   const body=rule('#confirmDialog .app-confirm-body');
   for(const expected of [/min-height:0/,/flex:1 1 auto/,/overflow:auto/,/overscroll-behavior:contain/])assert.match(body,expected);
 });
+
+// These source contracts are paired with native Chromium geometry checks in PR CI.
+function mobileHelpMedia(width) {
+  const css = html.match(/<style>([\s\S]*?)<\/style>/)[1];
+  const marker = new RegExp('@media\\s*\\(max-width:\\s*' + width + 'px\\)\\s*\\{').exec(css);
+  assert.ok(marker, 'existing smartphone media query');
+  const start = marker.index + marker[0].length;
+  let depth = 1, end = start;
+  while (depth && end < css.length) { if (css[end] === '{') depth++; if (css[end] === '}') depth--; end++; }
+  return css.slice(start, end - 1);
+}
+test('informational footer hides at 720px without hiding functional controls', () => {
+  assert.match(mobileHelpMedia(720), /(?:^|[}])\s*footer\s*\{[^}]*display:\s*none/);
+});
+test('existing build information is unique and the final Help body item, not page chrome', () => {
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] || '';
+  const help = html.match(/<dialog\b[^>]*id="helpDialog"[^>]*>([\s\S]*?)<\/dialog>/)?.[1] || '';
+  assert.doesNotMatch(main, /data-i18n="buildInfo"|id="buildInfo"/);
+  assert.doesNotMatch(html.match(/<footer\b[^>]*>[\s\S]*?<\/footer>/)[0], /id="buildInfo"/);
+  assert.match(help, /<span id="buildInfo">[^<]+<\/span><\/div>$/);
+  for (const id of ['buildInfo']) assert.equal(html.split(`id="${id}"`).length, 2, id);
+});

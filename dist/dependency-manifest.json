@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "builder": "htmlapps-template-compatible/1.0",
-  "generatedAtUtc": "2026-10-11T22:17:48.3669405Z",
+  "generatedAtUtc": "2026-10-23T09:21:33.0738734Z",
   "app": {
     "name": "Image Compressor & Converter",
     "slug": "htmlapps-image-compressor-converter",
