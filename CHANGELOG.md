@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — mobile Help layout
+
+- Hide the informational footer at 720px and below; move existing build information to the end of Help without changing functional bottom controls.
+- Preserve localized build values, keyboard access, and existing visibility policies; standardize the exact local-processing label.
+
 ## 1.1.2 - 2026-10-10
 
 - Keep background pages still while native dialogs are open.
