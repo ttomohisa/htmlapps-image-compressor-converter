@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+
 import { gunzipSync } from 'node:zlib';
 
 // Environment overrides are native filesystem paths, including Windows drives.
@@ -14,8 +15,8 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
 
 // A dependency-free DOM/codec adapter runs the real inline app functions. Real
 // browser image decoding, focus, layout and downloads are not simulated here.
-function app(items = fixtures()) {
-  const nodes = new Map(), revoked = [], created = [], readers = [], images = [], encodes = [], downloads = [], saved = new Map();
+function app(items = fixtures(), options = {}) {
+  const nodes = new Map(), revoked = [], created = [], readers = [], images = [], encodes = [], downloads = [], saved = new Map(Object.entries(options.saved || {}));
   let document;
   class Element {
     constructor() { this.value = ''; this.innerHTML = ''; this.textContent = ''; this.dataset = {}; this.style = {}; this.hidden = false; this.disabled = false; this.events = {}; this.open = false; this.classes = new Set(); this.classList = { add: x => this.classes.add(x), remove: x => this.classes.delete(x), contains: x => this.classes.has(x), toggle: (x, on) => on ? this.classes.add(x) : this.classes.delete(x) }; }
@@ -41,12 +42,13 @@ function app(items = fixtures()) {
   }
   const node = id => { if (!nodes.has(id)) nodes.set(id, new Element()); return nodes.get(id); };
   document = { getElementById: node, querySelectorAll: selector => selector === '[data-i18n]' ? [...html.matchAll(/<[^>]+id="([^"]+)"[^>]+data-i18n="([^"]+)"[^>]*>/g)].map(([, id, key]) => { const e = node(id); e.dataset.i18n = key; return e; }) : [], createElement: () => new Element(), addEventListener() {}, body: new Element(), documentElement: {}, activeElement: null };
-  const context = vm.createContext({ document, navigator: { language: 'en' }, window: {}, innerWidth: 1000, addEventListener() {}, localStorage: { getItem: key => saved.get(key) || null, setItem: (key, value) => saved.set(key, value) }, setTimeout: fn => { queueMicrotask(fn); return 1; }, clearTimeout() {}, requestAnimationFrame: fn => fn(), Blob, TextEncoder, Uint8Array, Uint32Array, Uint8ClampedArray,
-    URL: { createObjectURL: blob => { const url = 'blob:new-' + created.length; created.push({ url, blob }); return url; }, revokeObjectURL: url => revoked.push(url) },
+  const context = vm.createContext({ document, navigator: { language: 'en', languages: options.languages || ['en'] }, location:{href:options.url || 'https://example.invalid/'},history:{replaceState(){}},window: {}, innerWidth: 1000, addEventListener() {}, localStorage: { getItem: key => {if(options.storageUnavailable)throw Error('denied');return saved.get(key) || null}, setItem: (key, value) => {if(options.storageUnavailable)throw Error('denied');saved.set(key, value)} }, setTimeout: fn => { queueMicrotask(fn); return 1; }, clearTimeout() {}, requestAnimationFrame: fn => fn(), Blob, TextEncoder, Uint8Array, Uint32Array, Uint8ClampedArray,
+    URL: Object.assign(class extends URL {}, { createObjectURL: blob => { const url = 'blob:new-' + created.length; created.push({ url, blob }); return url; }, revokeObjectURL: url => revoked.push(url) }),
     FileReader: class { readAsDataURL(blob) { readers.push(async () => { this.result = 'data:' + blob.type + ';base64,' + Buffer.from(await blob.arrayBuffer()).toString('base64'); this.onload(); }); } },
     Image: class { set src(value) { this._src = value; images.push(() => { this.naturalWidth = this.width = 2; this.naturalHeight = this.height = 2; this.onload(); }); } get src() { return this._src; } }
   });
-  const exports = 'S,E,I,sel,bind,setLang,renderList,renderPreview,renderCandidates,updatePrimaryActions,updateSnippet,updateSnippetDisplay,removeSelected:typeof removeSelected === "function"?removeSelected:undefined,closeConfirm,clearAll,addFiles,metadata,compareFormats,toggleDifference,ensureDifference,finalizeOutput,runBatch,saveAll,downloadSelected,makeZip,updateOutputName,saveCheckedZip:typeof saveCheckedZip === "function"?saveCheckedZip:undefined';
+  vm.runInContext(readFileSync(new URL('../components/ui-conventions.js',import.meta.url),'utf8'),context);
+  const exports = 'loadSettings,saveSettings,S,E,I,sel,bind,setLang,renderList,renderPreview,renderCandidates,updatePrimaryActions,updateSnippet,updateSnippetDisplay,removeSelected:typeof removeSelected === "function"?removeSelected:undefined,closeConfirm,clearAll,addFiles,metadata,compareFormats,toggleDifference,ensureDifference,finalizeOutput,runBatch,saveAll,downloadSelected,makeZip,updateOutputName,saveCheckedZip:typeof saveCheckedZip === "function"?saveCheckedZip:undefined';
   vm.runInContext(runtime.replace(/\}\)\(\);\s*$/, `globalThis.api={${exports}};})();`), context);
   const api = context.api;
   api.S.items = items; api.S.selectedId = items[0]?.id || null; api.S.lang = 'en'; api.bind(); api.renderList(); api.renderPreview();

@@ -137,3 +137,18 @@ test('canceling removal leaves the exact export membership and preview unchanged
   const a = app(); a.check('a', false); a.select('b'); await a.remove(false);
   assert.deepEqual(checked(a), ['b', 'c']); assert.equal(a.S.selectedId, 'b'); assert.equal(a.E.checkedCount.textContent, '2 checked outputs');
 });
+
+
+test('batch freezes membership/settings and reports partial success without losing previous outputs', async()=>{
+ const a=app();let release;const seen=[];const previous=a.S.items[1].output;
+ const run=a.runBatch(async(x,settings)=>{seen.push([x.id,settings.quality]);if(x.id==='a')await new Promise(r=>release=r);if(x.id==='b')throw Error('codec failure');},'Done');
+ a.S.items.push(item('late'));a.S.settings.quality=10;release();await run;
+ assert.deepEqual(seen,[['a',84],['b',84],['c',84]]);assert.equal(a.S.items[1].output,previous);
+ assert.match(a.node('operationStatus').textContent,/2.*3.*1/);
+});
+
+test('cancel request becomes stopping until active item completes', async()=>{
+ const a=app();let finish;const seen=[];const run=a.runBatch(x=>{seen.push(x.id);return new Promise(r=>finish=r)},'Done');
+ a.E.cancelButton.onclick();assert.equal(a.E.cancelButton.disabled,true);assert.equal(a.E.cancelButton.getAttribute('data-bk-state'),'stopping');
+ assert.equal(a.S.processing,true);finish();await run;assert.deepEqual(seen,['a']);assert.equal(a.S.processing,false);
+});

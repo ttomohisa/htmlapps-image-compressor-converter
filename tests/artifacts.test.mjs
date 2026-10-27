@@ -13,7 +13,7 @@ test('artifact overrides remain filesystem paths on both Windows and Unix', () =
 test('tracked root, readable and self-extract artifacts carry the exact current template', () => {
   const source = read('src/index.template.html'), release = read('dist/index.html');
   const normalize = text => text.replace(/const APP_CONFIG=.*?;/, 'const APP_CONFIG=CONFIG;').replace(/const BUILD_MANIFEST=.*?;/, 'const BUILD_MANIFEST=MANIFEST;').replace(/const EMBEDDED_ASSET_BUNDLE_BASE64=.*?;/, 'const EMBEDDED_ASSET_BUNDLE_BASE64=BUNDLE;');
-  assert.equal(normalize(release), normalize(source));
+  assert.equal(normalize(release), normalize(source.replace('__BK_UI_CSS__', read('components/ui-conventions.css')).replace('__BK_UI_JS__', read('components/ui-conventions.js'))));
   assert.equal(read('image-compressor-converter.html'), release);
   const encoded = read('dist/index.self-extract.html').match(/atob\('([^']+)'\)/)?.[1]; assert.ok(encoded, 'self-extract payload exists');
   assert.equal(gunzipSync(Buffer.from(encoded, 'base64')).toString(), release);

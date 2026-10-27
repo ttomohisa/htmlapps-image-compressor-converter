@@ -1,0 +1,7 @@
+# Common UI v1
+
+The fixed v1 JS/CSS and hash lock embed in build-standalone.ps1 using scripts/embed-ui-conventions.ps1. Work and image bytes remain in the tab. Only existing non-sensitive settings use LocalStorage. Settings write failure stays visible and keeps current settings usable; changing a setting retries. Startup only reads legacy language; explicit switching writes the shared key and shows a screen-only notice if unavailable.
+
+Conversion snapshots input membership and settings. Cancellation waits for the active image; Stop becomes Stopping until that boundary. Partial completion reports success/total/failure counts. Previous outputs remain available on failed or skipped retries, are labeled when settings differ, and all/checked output scope is shown before saving. ZIP snapshots names and Blob identities; ZIP bytes/collision rules are unchanged. Anchor delivery says Download started. Removal remains confirmed, uses captured source path/count, preserves originals and settings, and uses cancel-first native dialog behavior. Open confirmation copy follows language changes.
+
+Human acceptance pending: mobile fixed action bar and dense export/header controls at narrow/short sizes, keyboard/focus/Escape/backdrop, image decoder/canvas output, stopping at file boundaries, screen readers and actual downloads. Existing dense comparison/format controls retain their geometry; shared header/executable controls target 44px. Run scripts/check-repository.ps1 for source and every built variant plus exact decoded self-extract parity.

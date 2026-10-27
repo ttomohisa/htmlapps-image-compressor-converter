@@ -7,6 +7,8 @@ New-Item -ItemType Directory -Force -Path (Split-Path -Parent $OutputPath)|Out-N
 $manifest=[ordered]@{schemaVersion=1;builder="htmlapps-template-compatible/1.0";generatedAtUtc=[DateTime]::UtcNow.ToString("o");app=[ordered]@{name=[string]$config.name;slug=[string]$config.slug;version=[string]$config.version};dependencies=@()}
 function SafeJson([object]$v,[int]$d=20){return($v|ConvertTo-Json -Compress -Depth $d).Replace("<","\u003c").Replace(">","\u003e").Replace("&","\u0026")}
 $html=[IO.File]::ReadAllText($Template,[Text.Encoding]::UTF8)
+. (Join-Path $Root "scripts/embed-ui-conventions.ps1")
+$html = Expand-BrowserKittyUI -Template $html -ComponentsPath (Join-Path $Root "components")
 $repl=[ordered]@{"__APP_CONFIG_JSON__"=SafeJson $config 20;"__BUILD_MANIFEST_JSON__"=SafeJson $manifest 20;"__EMBEDDED_ASSET_BUNDLE_BASE64__"=[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('{"schemaVersion":1,"dependencies":{}}'))}
 foreach($e in $repl.GetEnumerator()){$count=([regex]::Matches($html,[regex]::Escape($e.Key))).Count;if($count-ne 1){throw "Template placeholder $($e.Key) must occur exactly once; found $count."};$html=$html.Replace($e.Key,[string]$e.Value)}
 [IO.File]::WriteAllText($OutputPath,$html,(New-Object Text.UTF8Encoding($false)));$dir=Split-Path -Parent $OutputPath
