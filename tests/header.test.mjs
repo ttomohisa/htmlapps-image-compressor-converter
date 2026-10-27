@@ -51,3 +51,16 @@ test('open removal confirmation translates its captured literal filename and can
  assert.match(a.E.confirmMessage.textContent,/folder\/a.png/);assert.match(a.E.confirmMessage.textContent,/元ファイル/);
  assert.equal(a.document.activeElement,a.E.confirmCancelButton);a.closeConfirm(false);await pending;assert.deepEqual(a.S.items,before);
 });
+
+
+test('language switching preserves active difference and filename draft without invalidating pending work',()=>{
+ const a=app();a.S.diffMode=true;a.S.diffRequest=37;a.E.outputFilenameInput.value='unsaved draft';a.E.differencePreview.hidden=false;
+ a.E.languageButton.click();assert.equal(a.S.diffMode,true);assert.equal(a.S.diffRequest,37);assert.equal(a.E.outputFilenameInput.value,'unsaved draft');assert.equal(a.E.differencePreview.hidden,false);
+});
+test('ZIP read failure survives prior batch summary and language changes, keeps outputs retryable',async()=>{
+ const a=app();await a.runBatch(async()=>{},'Done');const previous=a.S.items.map(x=>x.output);
+ a.S.items[0].output.blob={size:5,arrayBuffer:async()=>{throw Error('synthetic ZIP read failure')}};
+ await a.saveAll();assert.match(a.node('operationStatus').textContent,/synthetic ZIP read failure/);
+ a.E.languageButton.click();assert.match(a.node('operationStatus').textContent,/synthetic ZIP read failure/);assert.equal(a.E.mobileSaveButton.disabled,false);
+ a.S.items.forEach((x,i)=>assert.equal(x.output,previous[i]));
+});
