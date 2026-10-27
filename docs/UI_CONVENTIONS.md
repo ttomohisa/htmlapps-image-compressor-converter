@@ -7,3 +7,5 @@ Conversion snapshots input membership and settings. Cancellation waits for the a
 Human acceptance pending: mobile fixed action bar and dense export/header controls at narrow/short sizes, keyboard/focus/Escape/backdrop, image decoder/canvas output, stopping at file boundaries, screen readers and actual downloads. Existing dense comparison/format controls retain their geometry; shared header/executable controls target 44px. Run scripts/check-repository.ps1 for source and every built variant plus exact decoded self-extract parity.
 
 Review follow-up: language updates only preview copy, preserving active/pending difference view and uncommitted filename drafts. ZIP delivery errors have retained app-owned state, take priority over older batch summaries and survive language switches; available outputs remain retryable.
+
+Pinned JS/CSS have explicit LF checkout attributes. Validate a fresh core.autocrlf=true checkout, not only current working bytes: Windows checkout conversion previously changed the bytes and failed the locked embed check. Never change the fixed hashes to accommodate line-ending conversion.
