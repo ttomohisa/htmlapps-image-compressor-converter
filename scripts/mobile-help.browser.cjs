@@ -15,8 +15,8 @@ async function main() {
   try {
     for (const file of ['dist/index.html', 'dist/index.self-extract.html', 'image-compressor-converter.html']) {
       for (const language of ['ja', 'en']) {
-        for (const [width, height] of [[1360, 900], [721, 568], [720, 568], [360, 640], [320, 568], [393, 252]]) {
-          const context = await browser.newContext({ viewport: { width, height }, locale: language, reducedMotion: 'reduce' });
+        for (const [width, height, hasTouch = false] of [[1360, 900], [844, 390, true], [721, 568], [720, 568], [360, 640], [320, 568], [393, 252]]) {
+          const context = await browser.newContext({ viewport: { width, height }, hasTouch, locale: language, reducedMotion: 'reduce' });
           const page = await context.newPage();
           const errors = [], requests = [];
           page.on('pageerror', error => errors.push(error.message));
@@ -27,14 +27,26 @@ async function main() {
             await page.goto(pathToFileURL(path.resolve(__dirname, '..', file)).href);
             await page.locator('#helpButton').waitFor();
             if (await page.locator('html').getAttribute('lang') !== language) await page.locator('#languageButton').click();
-            assert.equal(await page.locator('[data-i18n="localBadge"]').innerText(), language === 'en' ? 'Fully local processing' : '完全ローカル処理', label);
-            assert.ok(await page.locator('.local-badge').evaluate(el => {
-              const box = el.getBoundingClientRect();
-              const range = document.createRange();
-              range.selectNodeContents(el.querySelector('[data-i18n="localBadge"]'));
-              return box.left >= 0 && box.right <= innerWidth && el.scrollWidth <= el.clientWidth + 1
-                && [...range.getClientRects()].every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1 && rect.top >= box.top - 1 && rect.bottom <= box.bottom + 1);
-            }), label + ': badge text fits');
+            const description = page.locator('#inputPanel [data-i18n="startDescription"]');
+            assert.ok(await description.isVisible(), label + ': description next to the image input');
+            assert.match(await description.innerText(), language === 'en' ? /compress.*convert/i : /圧縮・変換/, label);
+            assert.ok(await page.getByRole('heading', { level: 1, name: /画像圧縮・変換ツール|Image Compressor & Converter/ }).isVisible(), label);
+            assert.equal(await page.locator('.start-kicker, #heroTitle, [data-i18n="startTitle"]').count(), 0, label);
+            const badge = page.locator('.local-badge');
+            const showBadge = width > 720 && !(hasTouch && height <= 600);
+            assert.equal(await badge.isVisible(), showBadge, label + ': desktop privacy badge');
+            if (showBadge) {
+              assert.equal(await badge.innerText(), language === 'en' ? 'Fully local processing' : '完全ローカル処理', label);
+              assert.ok(await badge.evaluate(el => {
+                const box = el.getBoundingClientRect();
+                const range = document.createRange();
+                range.selectNodeContents(el.querySelector('[data-i18n="localBadge"]'));
+                return box.left >= 0 && box.right <= innerWidth && el.scrollWidth <= el.clientWidth + 1
+                  && [...range.getClientRects()].every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1 && rect.top >= box.top - 1 && rect.bottom <= box.bottom + 1);
+              }), label + ': badge text fits');
+            } else {
+              assert.doesNotMatch(await page.locator('body').innerText(), /完全ローカル処理|Fully local processing/i, label);
+            }
             assert.equal(await page.locator('main').locator(buildSelector).count(), 0, label);
             assert.equal(await page.locator('footer').isVisible(), width > 720, label);
 

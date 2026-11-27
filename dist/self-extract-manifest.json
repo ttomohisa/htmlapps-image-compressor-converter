@@ -3,8 +3,8 @@
   "source": "index.html",
   "output": "index.self-extract.html",
   "compression": "gzip",
-  "sourceBytes": 144659,
-  "outputBytes": 51840,
-  "sourceSha256": "0ff0ff6e8cb426ee3587bf0cb5881cfeee83c8cd73626b1e40a7aa6e18da5ec7",
-  "outputSha256": "a02a56400b65a285a701f98ac6d2070a938fc7aa25d0bd7b49c972626e5d8ed0"
+  "sourceBytes": 142902,
+  "outputBytes": 51168,
+  "sourceSha256": "e2259c6329697e98c901ad15a9bc9ac649664307166bb7a706a3c3be407d3741",
+  "outputSha256": "90df4f1eb1cd9b1d575920a5533658dd22df59e67623429e5bed1e472905499a"
 }

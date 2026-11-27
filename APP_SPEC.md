@@ -56,7 +56,7 @@
 ## UX
 
 - Light-only UI aligned with Browser Kitty / `htmlapps-template`.
-- Start state keeps the UI intentionally simple: purpose-first copy, image input and four quick purpose choices.
+- The Start screen introduces PNG, JPEG and WebP compression and conversion in a short paragraph above the image picker. Four purpose presets follow the picker.
 - Desktop Workbench uses three areas: image list, comparison preview and optimization settings.
 - Desktop drop area states that multiple selection is supported and offers `Ctrl+V` clipboard guidance.
 - Mobile file input states that multiple image selection is supported without desktop-only drag/drop or keyboard guidance.
@@ -71,7 +71,8 @@
 - Native modal dialogs lock background page scrolling while open and restore normal scrolling on dismissal.
 - Help keeps its heading and Close fixed while only its body scrolls within the available viewport and safe areas. Preserve the existing Export and Viewer shell allocations. Confirmation uses its own fixed header and internally scrolling body so short/narrow action buttons remain reachable.
 - The narrow Viewer toolbar reserves its existing button widths while its zoom range can shrink; the comparison range stays inside the toolbar. Export grid/code content has zero-minimum containment instead of forcing horizontal overflow.
-- At widths up to 420px, the title/version wrap without shrinking language or Help actions. Preserve the existing local-processing shield and brand artwork.
+- At widths up to 420px, the title/version wrap without shrinking language or Help actions. Preserve the brand artwork.
+- Hide the local-processing badge and header subtitle at widths up to 720px and on touch devices with a viewport height up to 600px, including landscape phones. Privacy details remain available in Help.
 - Acceptance requires actual short/narrow JA/EN bounds, tail reachability, wheel, Tab and dismissal/focus checks. Source contracts do not establish native geometry. Full image conversion, other dialogs/settings and actual saves remain separate audit gates.
 
 ## Acceptance criteria
@@ -101,7 +102,7 @@
 
 ## Mobile footer and Help build information
 
-- Hide only the informational page footer at the existing 720px smartphone breakpoint. Preserve functional bottom controls.
+- Hide the informational page footer at the existing 720px smartphone breakpoint. Preserve functional bottom controls.
 - Keep the existing build information as the final item of Help’s independently scrollable body, with its unique IDs and localization unchanged. Build information remains available at every width.
 - Use “Fully local processing” for the exact 完全ローカル処理 label; preserve detailed privacy explanations.
-- Focused PR Chromium checks cover the official generated variants in JA/EN at desktop, breakpoint, narrow and short sizes, final Help reachability, badge overflow, dismissal, errors and runtime network. Keep four screenshots plus failure evidence. These layout checks are not a new full main-flow audit.
+- Focused PR Chromium checks cover the official generated variants in JA/EN at desktop, breakpoint, narrow and short sizes, the Start description, desktop-only badge, final Help reachability, dismissal, errors and runtime network. Keep four screenshots plus failure evidence. These layout checks are not a new full main-flow audit.
