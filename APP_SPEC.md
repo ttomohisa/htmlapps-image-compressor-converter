@@ -23,11 +23,11 @@
 - Purpose-based presets for common image workflows.
 - Smart Optimize compares candidate formats and quality levels using a local visual-difference score.
 - Target-size mode searches quality and, when required, progressively reduces dimensions to approach the requested KB limit.
-- Auto format selection with transparency-aware fallback.
+- Automatic comparisons preserve transparency, including a single translucent pixel at the original resolution.
 - Resize by long edge, width, height or no resize; preserve aspect ratio and never upscale.
 - Optional source retention when conversion would make the result larger.
-- Batch processing with cancellation between files and total source/output/savings summary.
-- Before / After slider with a visible divider and handle.
+- Batch completion and cancellation report successes and failures for that run. The list keeps failure counts visible alongside the size summary.
+- Both comparison views place the source on the left and the output on the right of the divider.
 - Amplified pixel-difference view for subtle compression changes.
 - Separate on-demand JPEG / PNG / WebP format comparison.
 - Large preview dialog with 100–400% zoom, drag-to-pan, pinch zoom and Before / After comparison.
@@ -38,7 +38,7 @@
 - Show the checked eligible count. Disable checked ZIP, checkboxes and All / None during batch processing; disable checked ZIP at zero, and All / None when no outputs exist. Restore these states after completion or cancellation.
 - Checked export always downloads a ZIP, including one output, with membership, paths and Blob identities captured before asynchronous ZIP reads. Existing save-all and single-image actions remain independent, including direct save for one output.
 - ZIP creation assigns deterministic unique paths for exact collisions after existing safe-path normalization. Reserve original names before allocating numbered suffixes, preserve order/folders/extensions/payload bytes, and never modify the edited output names. ZIP path identity remains case-sensitive; broader extractor portability is outside this behavior.
-- Export dialog for Base64 Data URL, HTML, CSS, Markdown, `<picture>` and Web-assets ZIP.
+- Export dialog for Base64 Data URL, HTML, CSS, Markdown, `<picture>` and Web-assets ZIP. The Web assets and both copies of the picture snippet use the edited output name and output dimensions.
 - Japanese / English UI in the same standalone HTML.
 - Persist only settings/language in LocalStorage; never persist image bytes.
 - Remove the selected image after in-app confirmation naming its captured source path; keep every other image, edited filename, relative path, output and setting. Select the next image (otherwise the previous one), or return to Start after the last removal.
@@ -51,7 +51,7 @@
 - Runtime CSP contains `connect-src 'none'`.
 - No analytics, telemetry, tracking, server storage or account system.
 - Selected images are not uploaded by the app.
-- Canvas re-encoding normally removes EXIF and similar metadata.
+- Canvas re-encoding normally removes EXIF and similar metadata. Saving an original preserves its metadata, including location when present. Indicate this near the applicable save actions.
 
 ## UX
 
@@ -62,6 +62,7 @@
 - Mobile file input states that multiple image selection is supported without desktop-only drag/drop or keyboard guidance.
 - Purpose icons and app identity icons use SVG, not emoji.
 - Mobile (<=720px) uses a safe-area-aware fixed action bar and settings bottom sheet.
+- When an output exists, the mobile bar links directly to its preview. If the selected image failed, the shortcut opens an available result.
 - The mobile settings sheet closes when “Convert with settings” is executed.
 - Visible focus states and `prefers-reduced-motion` support are required.
 
