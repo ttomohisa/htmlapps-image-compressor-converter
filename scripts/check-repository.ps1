@@ -8,8 +8,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "Image source regression tests failed." }
     & (Join-Path $Root "build-standalone.ps1")
     Copy-Item -LiteralPath (Join-Path $Root "dist/index.html") -Destination (Join-Path $Root "image-compressor-converter.html")
-    & node --test (Join-Path $Root "tests/artifacts.test.mjs")
-    if ($LASTEXITCODE -ne 0) { throw "Image release artifact parity failed." }
+    & node --test (Join-Path $Root "tests/artifacts.test.mjs") (Join-Path $Root "tests/release.test.mjs")
+    if ($LASTEXITCODE -ne 0) { throw "Release artifact or publication checks failed." }
     foreach ($Artifact in @("image-compressor-converter.html", "dist/index.html", "dist/index.self-extract.html")) {
         $env:IMAGE_SOURCE = (Join-Path $Root $Artifact)
         & node --test @Tests

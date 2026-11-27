@@ -8,6 +8,8 @@
 
 PNG / JPEG / WebPを対象に、**用途を選ぶだけで形式・品質・解像度を比較し、最適な出力を探す単一HTMLの画像最適化ワークベンチ**です。画像を外部へアップロードせず、Smart Optimizeも端末内だけで動作します。
 
+[最新版の単体HTMLをダウンロード](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.html) · [リリースノートとその他のダウンロード](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases)
+
 ## 🚀 デモ
 
 ### [GitHub Pagesで画像圧縮・変換ツールを開く](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
@@ -22,28 +24,22 @@ GitHub Pagesから最初のHTMLを読み込んだ後、画像の読み込み・�
 
 [![画像圧縮・変換ツールのWorkbench](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
-スマートフォンでは主要操作を画面下部に配置し、変換設定はsafe areaに対応したボトムシートで表示します。Webページというより、ネイティブアプリに近い操作感を意識しています。
+スマートフォンでは画面下部から設定を開いたり、変換を開始したりできます。変換後は **結果を見る** でプレビューに移動できます。ビルド情報はヘルプの末尾にあります。
 
 ![スマホ表示](assets/screenshot-mobile.png)
 
 ## 主な機能
 
-- 低い画面でもヘルプの閉じるボタンを残し、本文をスクロール。ダイアログ表示中の背景スクロールを止め、狭いヘッダーでもバージョンを表示。
-
-- 画像ごとのチェック、「すべて」「解除」、チェック済み枚数から必要な変換結果だけをZIP保存
-- 変換後や保存名編集後に同名になっても、ZIP内の名前を調整してすべての画像を維持
-
-- 選択画像だけを確認後に削除し、ほかの画像や変換結果を維持
-
-- **Start → Workbench UI**：最初は用途を選ぶシンプルな画面、画像追加後は「画像一覧 / 比較プレビュー / 最適化」の3カラムへ変化
-- **Smart Optimize**：JPEG / WebP / PNGと複数の品質候補をローカルで比較し、簡易的な見た目スコアを満たす中から最小サイズを採用
-- **強化した目標容量モード**：品質だけで届かない場合は解像度も段階的に下げ、指定KB以下を探索
+- ファイルまたはフォルダから画像を追加。PCでは画像一覧、比較プレビュー、設定を並べて表示
+- **Smart Optimize** で圧縮候補を端末内で比較。形式の自動選択では、半透明のピクセルが1つでもあれば透過に対応する形式を使用
+- **目標容量** で品質と解像度を段階的に調整し、指定したKB数に近づける
 - Webサイト / 写真 / スクリーンショット / 容量制限 / README / 透過画像 / 形式変換の目的ベースプリセット
 - 変換後の方が大きい場合は元画像を自動維持（形式変換を優先したい場合は無効化可能）
 - PCでは **Ctrl+V** でスクリーンショットやコピー画像を直接追加。ファイル選択はPC・スマホとも複数選択に対応
-- 複数画像の元容量・出力容量・合計削減率をまとめて表示
+- 一括変換の進捗と成功・失敗件数を表示。結果を保存できる画像について、元容量・出力容量・合計削減率を集計
 - Before / After、差分強調、100〜400%の拡大プレビュー
-- JPEG / PNG / WebP比較、保存名変更、フォルダ構造を維持したZIP保存
+- 保存名を変更し、フォルダ構造を維持してZIP保存。**チェック済みをZIP保存** では対象枚数を確認でき、同名の出力にはZIP内で連番を付けて区別
+- 選択した画像だけを確認後に削除し、ほかの画像と変換結果を維持
 - **書き出し**画面にBase64 / HTML / CSS / Markdown / `<picture>` / Web素材ZIPを集約
 - 日本語 / 英語を同じ単一HTML内で切り替え
 - HTML読込後は **完全ローカル処理**。CSPの `connect-src 'none'` でも実行時通信を禁止
@@ -54,32 +50,22 @@ GitHub Pagesから最初のHTMLを読み込んだ後、画像の読み込み・�
 
 [デモを開く](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)だけで利用できます。インストールやアカウント登録は不要です。
 
-### 単体HTMLをダウンロードして使う
+### オフラインで使う
 
-1. リポジトリから [`dist/index.html`](https://github.com/ttomohisa/htmlapps-image-compressor-converter/blob/main/dist/index.html) をダウンロードします。
-2. 最新のChromiumベースのブラウザ、Firefox、Safariなどで開きます。
-3. 画像を追加すれば、そのままブラウザー内で処理できます。
+1. 最新リリースから [index.html](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.html) を保存します。
+2. 保存したHTMLをブラウザーで直接開きます。開く前にネットワークを切断しても使えます。
+3. 画像を追加して変換し、結果を保存します。
 
-### 完全オフラインで使う（上級者向け）
-
-1. このリポジトリをダウンロードまたはクローンします。
-2. Windowsで `build-standalone.bat` をダブルクリックします。
-3. 生成された `dist/index.html` を任意の場所へコピーします。
-4. 以降はそのHTML単体をインターネット接続なしで開けます。
-
-より小さい自己展開形式の `dist/index.self-extract.html` も生成されます。
-
-通常のビルドにPython、Node.js、ローカルWebサーバーは不要です。`htmlapps-template` と同じWindows PowerShellベースのビルド構成です。
+ダウンロード容量を抑えたい場合は、[自己展開版HTML](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.self-extract.html) を利用できます。gzipの `DecompressionStream` に対応したブラウザーで同じアプリが開きます。両方のファイルを検証する手順は [オフライン検証](VERIFY_OFFLINE.md) にあります。
 
 ## 使い方
 
 1. PNG / JPEG / WebP画像を追加します。PCでは **Ctrl+V** でスクリーンショットやコピー画像を貼り付けられます。ファイル選択はPC・スマホとも複数選択に対応しています。
 2. **Webサイト / 写真 / スクリーンショット / 容量制限**などの用途を選びます。
-3. **Smart Optimize**を実行します。形式・品質候補を端末内で比較し、見た目の条件を満たす最小候補を選びます。
-4. ファイルサイズ上限がある場合は **目標容量** を有効にし、KBと「見た目優先 / サイズ優先」を指定します。
-5. Before / After、差分強調、合計削減率を確認します。
-6. 画像を保存するか、複数画像をZIP保存します。Web制作向け出力は **書き出し** から利用できます。
-7. 出力形式・正確なリサイズ・品質上限を指定したい場合だけ **詳細設定** を開きます。
+3. ファイルサイズに上限がある場合は **目標容量** を有効にし、KB数と「見た目優先 / サイズ優先」を指定します。
+4. **Smart Optimize** を実行します。形式・リサイズ・品質上限を指定するには **詳細設定** を開き、**設定どおり変換** を実行します。必ず指定形式に変換したい場合は **元より大きければ元画像を維持** をオフにします。
+5. Before / Afterや一括変換の集計を確認します。目標容量に届かない場合があるため、アップロード前に出力サイズを確認してください。
+6. 選択画像を保存するか、複数画像をZIP保存します。Web制作向けのコードや素材は **書き出し** から取得できます。
 
 ### チェックした変換結果だけを保存
 
@@ -89,7 +75,7 @@ ZIPは画像の順序と相対フォルダを維持します。同じパスが�
 
 ### Before / After比較
 
-通常の比較では、元画像と変換後画像を同じ位置に重ね、中央の境界線を左右に動かして表示範囲を切り替えます。
+通常のプレビューでも拡大表示でも、境界線の左に元画像、右に変換後の画像が表示されます。境界線を左右に動かして比べられます。
 
 高品質なWebPやJPEGでは、ファイルサイズが大きく減っていても肉眼では差がほとんど分からないことがあります。その場合は **差分を強調** を使うと、ピクセル差を増幅して確認できます。
 
@@ -102,7 +88,7 @@ ZIPは画像の順序と相対フォルダを維持します。同じパスが�
 - CSS `background-image`
 - Markdown画像記法
 - フォールバック付き `<picture>`
-- Web素材一式のZIP
+- Web素材ZIP。編集した保存名と出力寸法に合わせた画像と `snippet.html` をまとめます。透過画像にはPNG、不透明画像にはJPEGを用意し、ブラウザーが対応していればWebPも含めます。
 
 ## GitHub Pagesで公開する
 
@@ -114,6 +100,10 @@ ZIPは画像の順序と相対フォルダを維持します。同じパスが�
 4. ビルド成功後、`https://ttomohisa.github.io/htmlapps-image-compressor-converter/` で公開されます。
 
 GitHub Pagesがまだ有効化されていない場合は、ビルド自体を成功させたままデプロイだけをスキップし、ActionsのSummaryに設定方法を表示する構成です。
+
+## GitHub Releasesで配布する
+
+`main` へのプッシュで `app.config.json` の `version` がプッシュ前より上がると、リリース用ワークフローが起動します。リポジトリ検証の成功後、プッシュされたコミットに `vX.Y.Z` のタグを付け、`index.html` と `index.self-extract.html` を公開します。上記のダウンロードリンクは最新の公開リリースを指します。[メンテナー向け手順](CONTRIBUTING.md)
 
 ## 開発とビルド
 
@@ -133,16 +123,17 @@ GitHub Pagesがまだ有効化されていない場合は、ビルド自体を�
 │  └─ index.self-extract.html    # 自己展開版
 └─ .github/workflows/
    ├─ build-standalone.yml        # ビルド検証
-   └─ deploy-pages.yml            # GitHub Pages公開
+   ├─ deploy-pages.yml            # GitHub Pages公開
+   └─ release.yml                 # バージョン付きリリースの公開
 ```
 
-ローカルビルド：
+Windowsでリポジトリを取得し、次のコマンドでビルドします。PowerShellと.NET標準のgzip圧縮を使用します。
 
 ```bat
 build-standalone.bat
 ```
 
-ビルド時には単体HTMLを生成し、未置換プレースホルダーや禁止された実行時ネットワーク参照が残っていないことを検査します。
+ビルドは `dist/` に2種類のHTMLを生成し、通常版HTMLの未置換プレースホルダー、CSP、外部アセット参照を検査します。Node.js 20以降が使える環境では、PowerShellから `.\scripts\check-repository.ps1` を実行すると、回帰テスト、生成物の一致検査、リリース公開のローカル検証も行えます。
 
 ## プライバシーと通信防止
 
@@ -164,7 +155,7 @@ GitHub Pages版では最初のHTMLを取得する通信だけ発生します。�
 - ブラウザーごとに画像エンコーダーが異なるため、同じ設定でも最終ファイルサイズが多少変わる場合があります。
 - 非常に大きい画像や大量の一括処理では、端末メモリを多く使用します。
 - 再エンコードすると通常はEXIFなどの撮影情報が除去されます。容量を抑えるために元画像をそのまま保存した場合は、元画像に含まれる撮影情報や位置情報も保持されます。
-- 現在の処理ではアニメーション画像のアニメーションは維持されません。
+- 再エンコードした画像は静止画になります。元画像をそのまま保存した場合はアニメーションも維持されます。
 
 ## 使用ライブラリ
 
@@ -181,7 +172,3 @@ GitHub Pages版では最初のHTMLを取得する通信だけ発生します。�
 Copyright © 2026 ttomohisa
 
 このプロジェクトは [MIT License](LICENSE) で公開されています。
-
-リポジトリ検証（`scripts/check-repository.ps1`）は依存追加なしの回帰テストも実行するため、Node.js 20以降が必要です。`node --test tests/*.test.mjs` で直接実行できます。
-
-画像の読み込み後も、拡大プレビューの操作と書き出しコードが狭い画面内に収まります。確認画面は見出しを残し、本文と操作ボタンをスクロールできます。

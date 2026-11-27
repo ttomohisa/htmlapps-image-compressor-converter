@@ -1,9 +1,14 @@
 # Changelog
 
-## Unreleased — mobile Help layout
+## 1.2.0 - 2026-11-27
 
-- Hide the informational footer at 720px and below; move existing build information to the end of Help without changing functional bottom controls.
-- Preserve localized build values, keyboard access, and existing visibility policies; standardize the exact local-processing label.
+- Added **View results** to the mobile action bar. After a mixed batch it opens an available output, even if the selected image failed.
+- Batch completion and cancellation now report how many images succeeded and failed. The image list shows failures alongside the size savings.
+- Fixed the Before / After divider in both previews. The original appears on the left and the output on the right.
+- Automatic format comparison detects even a single translucent pixel and offers PNG and supported WebP for transparent images. Retained originals use the detected file extension and show a reminder that their existing metadata, including location, is preserved.
+- The Web assets ZIP and copied `<picture>` markup use the edited filename and output dimensions. Renamed files with spaces or non-ASCII characters can be referenced by the packaged snippet.
+- Moved build information to the end of Help, hid the informational footer at widths of 720 px or less, and aligned the header, local-processing badge and Help with the shared app design.
+- Added automatic GitHub Releases for version increases on `main`, with direct downloads of the verified standalone HTML and its self-extracting variant.
 
 ## 1.1.2 - 2026-10-10
 

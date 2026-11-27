@@ -3,6 +3,7 @@ $ErrorActionPreference="Stop";$bytes=[IO.File]::ReadAllBytes((Resolve-Path $Inpu
 $html=@"
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Image Compressor & Converter</title></head><body><noscript>JavaScript is required.</noscript><script>(async()=>{const b=atob('$payload'),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);if(!('DecompressionStream'in window)){document.body.textContent='This self-extracting file requires DecompressionStream support. Use dist/index.html instead.';return}const s=new Blob([a]).stream().pipeThrough(new DecompressionStream('gzip')),h=await new Response(s).text();document.open();document.write(h);document.close()})().catch(e=>document.body.textContent='Failed to open Image Compressor & Converter: '+e.message);</script></body></html>
 "@
+$html=$html.Replace("`r`n","`n")
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $OutputPath)|Out-Null;[IO.File]::WriteAllText($OutputPath,$html,(New-Object Text.UTF8Encoding($false)))
 function Get-Sha256Hex([string]$Path){
   $resolved=(Resolve-Path -LiteralPath $Path).Path

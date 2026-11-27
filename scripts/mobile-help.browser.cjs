@@ -5,12 +5,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { chromium } = require('playwright');
+const version = require('../app.config.json').version;
 const buildSelector = '#buildInfo';
 
 async function main() {
   const results = path.resolve(__dirname, '..', 'test-results', 'mobile-help');
   fs.mkdirSync(results, { recursive: true });
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
   try {
     for (const file of ['dist/index.html', 'dist/index.self-extract.html', 'image-compressor-converter.html']) {
       for (const language of ['ja', 'en']) {
@@ -46,7 +47,8 @@ async function main() {
             assert.equal(await page.locator(buildSelector).isVisible(), true, label);
             for (const id of ['buildInfo']) assert.equal(await page.locator('#' + id).count(), 1, label);
 
-            assert.match(await page.locator('#buildInfo').innerText(), /v1\.1\.2/, label + ': localized build text');
+            assert.equal(await page.locator('#versionBadge').innerText(), 'v' + version, label + ': header version');
+            assert.ok((await page.locator('#buildInfo').innerText()).includes(' v' + version + ' · '), label + ': localized build text');
             await body.evaluate(el => { el.scrollTop = el.scrollHeight; });
             const finalItem = page.locator('#buildInfo');
             const finalBox = await finalItem.boundingBox(), bodyBox = await body.boundingBox();

@@ -1,0 +1,75 @@
+name: Publish versioned HTML release
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Determine version change
+        id: version
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: node .github/scripts/release.cjs
+      - name: Build and check release downloads
+        if: steps.version.outputs.tag != ''
+        shell: pwsh
+        run: |
+          $env:SOURCE_DATE_EPOCH = git show -s --format=%ct HEAD
+          ./scripts/check-repository.ps1
+      - name: Stage verified HTML files
+        if: steps.version.outputs.tag != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: release-html
+          path: |
+            dist/index.html
+            dist/index.self-extract.html
+          if-no-files-found: error
+          overwrite: true
+
+  publish:
+    needs: prepare
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.prepare.outputs.tag != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    concurrency:
+      group: github-release-${{ needs.prepare.outputs.tag }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+        with:
+          name: release-html
+          path: release-downloads
+      - name: Tag the verified commit and publish both downloads
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        env:
+          RELEASE_TAG: ${{ needs.prepare.outputs.tag }}
+        with:
+          script: |
+            const fs = require('node:fs');
+            const { releaseNotes, publishRelease } = require(process.env.GITHUB_WORKSPACE + '/.github/scripts/release.cjs');
+            const tag = process.env.RELEASE_TAG;
+            const notes = releaseNotes(fs.readFileSync('CHANGELOG.md', 'utf8'), tag);
+            const assets = ['index.html', 'index.self-extract.html'].map(name => ({
+              name, data: fs.readFileSync('release-downloads/' + name)
+            }));
+            await publishRelease({ github, repo: context.repo, sha: context.sha, tag, notes, assets });

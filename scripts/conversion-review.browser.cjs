@@ -4,12 +4,13 @@ const { before, after, beforeEach, afterEach, test } = require('node:test');
 const { readFile } = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { chromium } = require('playwright');
+const { chromium, firefox, webkit } = require('playwright');
 
 const artifact = path.resolve(__dirname, '..', process.env.IMAGE_SOURCE || 'dist/index.html');
 let browser, page;
 before(async () => {
-  browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
+  const engine = { chromium, firefox, webkit }[process.env.BROWSER_ENGINE || 'chromium'];
+  browser = await engine.launch(engine === chromium ? { executablePath: process.env.CHROMIUM_PATH } : {});
 });
 after(async () => browser?.close());
 beforeEach(async () => {
@@ -84,12 +85,19 @@ test('both comparison views place the transparent source left and the white JPEG
 });
 
 const onePixelPng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGMwFRH7DwACQAFfkyWOnQAAAABJRU5ErkJggg==', 'base64');
+async function convertWithOriginalRetention() {
+  // A one-pixel JPEG is larger than this PNG in all three engines; WebP sizes vary.
+  await page.locator('.advanced-settings summary').click();
+  await page.locator('[data-format="image/jpeg"]').click();
+  await page.locator('#qualityRange').press('Home');
+  await page.locator('#processButton').click();
+}
 test('retaining the original warns about metadata at save time in both languages', async () => {
   await page.locator('#fileInput').setInputFiles({
     name: 'pixel.png', mimeType: 'image/png',
     buffer: onePixelPng
   });
-  await page.locator('#processButton').click();
+  await convertWithOriginalRetention();
   const warning = page.locator('#outputWarning');
   await warning.waitFor();
   assert.match(await warning.innerText(), /撮影情報|メタデータ/);
@@ -101,7 +109,7 @@ test('retaining the original warns about metadata at save time in both languages
   assert.ok(await checkedNote.isHidden());
   await page.setViewportSize({ width: 320, height: 568 });
   const saveNote = page.locator('.mobile-bar [data-retention]');
-  assert.ok(await saveNote.isVisible());
+  await saveNote.waitFor({ state: 'visible' });
   assert.match(await saveNote.innerText(), /metadata/i);
 });
 
@@ -115,8 +123,12 @@ test('one nearly opaque pixel rules out JPEG even outside the first scan tile', 
 });
 
 test('the bulk save card identifies retained siblings of a re-encoded selection', async () => {
-  await page.locator('#fileInput').setInputFiles([await png(), { name: 'pixel.png', mimeType: 'image/png', buffer: onePixelPng }]);
-  await page.locator('#processButton').click();
+  const screenshot = await readFile(path.resolve(__dirname, '../assets/screenshot.png'));
+  await page.locator('#fileInput').setInputFiles([
+    { name: 'screen.png', mimeType: 'image/png', buffer: screenshot },
+    { name: 'pixel.png', mimeType: 'image/png', buffer: onePixelPng }
+  ]);
+  await convertWithOriginalRetention();
   await page.locator('#saveAllButton').waitFor();
   assert.ok(await page.locator('#outputWarning').isHidden());
   assert.ok(await page.locator('#saveCard [data-retention]').isVisible());
@@ -132,7 +144,7 @@ test('transparent pixels survive candidate selection when the picker reports a J
 
 test('a retained original is downloaded with its actual image extension', async () => {
   await page.locator('#fileInput').setInputFiles({ name: 'logo.jpg', mimeType: 'image/jpeg', buffer: onePixelPng });
-  await page.locator('#processButton').click();
+  await convertWithOriginalRetention();
   await page.locator('#outputWarning').waitFor();
   const pending = page.waitForEvent('download');
   await page.locator('#downloadSelectedButton').click();
@@ -156,7 +168,7 @@ test('the mobile results shortcut reaches a finished image after a long mixed ba
   const good = await png();
   await page.locator('#fileInput').setInputFiles([damaged, ...Array.from({ length: 19 }, (_, i) => ({ ...good, name: i + '.png' }))]);
   await page.locator('#mobileProcessButton').click();
-  await page.waitForFunction(() => document.querySelectorAll('.file-status.done').length === 19 && !document.querySelector('#mobileProcessButton').disabled);
+  await page.waitForFunction(() => document.querySelectorAll('.file-status.done').length === 19 && !document.querySelector('#mobileProcessButton').disabled, null, { timeout: 60000 });
   const shortcut = page.getByRole('button', { name: '結果を見る' });
   await shortcut.click();
   const stage = await page.locator('#previewStage').boundingBox();

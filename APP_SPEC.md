@@ -3,7 +3,7 @@
 ## Product identity
 
 - **Name:** 画像圧縮・変換ツール / Image Compressor & Converter
-- **Version:** 1.1.2
+- **Version:** 1.2.0 (canonical value in `app.config.json`)
 - **Purpose:** Find a practical image output by comparing format, quality and dimensions entirely in the browser.
 - **Release artifacts:** `dist/index.html` and `dist/index.self-extract.html`
 - **Runtime network:** blocked with CSP `connect-src 'none'`
@@ -25,8 +25,8 @@
 - Target-size mode searches quality and, when required, progressively reduces dimensions to approach the requested KB limit.
 - Automatic comparisons preserve transparency, including a single translucent pixel at the original resolution.
 - Resize by long edge, width, height or no resize; preserve aspect ratio and never upscale.
-- Optional source retention when conversion would make the result larger.
-- Batch completion and cancellation report successes and failures for that run. The list keeps failure counts visible alongside the size summary.
+- Optional source retention when the converted file would be as large as the source or larger, provided the source fits any enabled size limit. Retained files keep their bytes and use the extension for the detected source format.
+- Batch completion and cancellation report successes and failures for that run. Cancellation takes effect between files. The list keeps failure counts visible alongside the size summary for available outputs.
 - Both comparison views place the source on the left and the output on the right of the divider.
 - Amplified pixel-difference view for subtle compression changes.
 - Separate on-demand JPEG / PNG / WebP format comparison.
@@ -66,7 +66,7 @@
 - The mobile settings sheet closes when “Convert with settings” is executed.
 - Visible focus states and `prefers-reduced-motion` support are required.
 
-## Responsive dialog audit (v1.1.2)
+## Responsive dialogs
 
 - Native modal dialogs lock background page scrolling while open and restore normal scrolling on dismissal.
 - Help keeps its heading and Close fixed while only its body scrolls within the available viewport and safe areas. Preserve the existing Export and Viewer shell allocations. Confirmation uses its own fixed header and internally scrolling body so short/narrow action buttons remain reachable.
@@ -76,7 +76,7 @@
 
 ## Acceptance criteria
 
-- `app.config.json` and visible UI report version `1.1.2`.
+- The header, Help and build manifest report the version from `app.config.json`.
 - No unresolved build placeholders or prohibited external runtime assets exist in generated artifacts.
 - `dist/index.html` works when opened directly with `file://` in a current browser.
 - Core conversion, Smart Optimize, target-size mode, comparison, Base64 and ZIP functions work without runtime network access.
@@ -85,13 +85,19 @@
 - Mobile avoids desktop-only drag/drop / `Ctrl+V` instructions and supports multiple selection through the file picker.
 - Smart Optimize can keep the source when the generated result would be larger.
 - Target-size mode can reduce both quality and dimensions for JPEG / WebP; PNG can only reduce dimensions.
-- Batch summary shows source size, output size and total savings after conversion.
+- Batch summary shows source size, output size and total savings for available outputs. A mixed batch reports both successes and failures.
 - Before / After divider remains visible while comparison is active, and the difference view can be toggled without changing the output.
 - Mobile settings close after manual conversion is triggered.
 - Save filename edits are reflected in single downloads and batch ZIP paths. Same-stem PNG/JPEG conversions and manual duplicate names retain every output in ZIPs, including when a natural numbered-suffix name exists.
 - Checked export controls remain reachable in the image panel on mobile without replacing the fixed primary action bar. Checkbox keyboard activation is separate from the preview row. Japanese and English help explain checked export.
 - Export dialog provides the documented web/developer outputs.
 - `assets/favicon.svg`, the embedded favicon and the header app icon use the same visual design.
+
+## Release distribution
+
+- A push to `main` that increases the app version relative to the tip before the push publishes a GitHub Release after repository checks pass.
+- Release tag `vX.Y.Z` identifies the pushed commit. The downloadable assets are named `index.html` and `index.self-extract.html`. The self-extracting file contains the same app and requires gzip `DecompressionStream` support.
+- The Pages workflow builds and deploys the `dist/` directory independently of release version changes.
 
 ## Mobile footer and Help build information
 

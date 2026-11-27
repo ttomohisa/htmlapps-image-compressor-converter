@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 import test from 'node:test';
+import { createHash } from 'node:crypto';
 import * as harness from './app-harness.mjs';
 
 const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
@@ -17,4 +18,19 @@ test('tracked root, readable and self-extract artifacts carry the exact current 
   assert.equal(read('image-compressor-converter.html'), release);
   const encoded = read('dist/index.self-extract.html').match(/atob\('([^']+)'\)/)?.[1]; assert.ok(encoded, 'self-extract payload exists');
   assert.equal(gunzipSync(Buffer.from(encoded, 'base64')).toString(), release);
+});
+
+test('both downloads and embedded version information match their release manifests', () => {
+  const config = JSON.parse(read('app.config.json'));
+  const manifest = JSON.parse(read('dist/dependency-manifest.json'));
+  const archive = JSON.parse(read('dist/self-extract-manifest.json'));
+  const html = read('dist/index.html');
+  assert.deepEqual(JSON.parse(html.match(/^const APP_CONFIG=(.*);$/m)[1]), config);
+  assert.deepEqual(JSON.parse(html.match(/^const BUILD_MANIFEST=(.*);$/m)[1]), manifest);
+  assert.equal(manifest.app.version, config.version);
+  for (const key of ['source', 'output']) {
+    const bytes = readFileSync(new URL('../dist/' + archive[key], import.meta.url));
+    assert.equal(bytes.length, archive[key + 'Bytes']);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), archive[key + 'Sha256']);
+  }
 });
