@@ -163,7 +163,7 @@ The GitHub Pages version requires the initial HTML request. After loading, image
 - WebP encoding support depends on the browser's Canvas implementation.
 - Exact compressed size can differ between browsers because encoding is browser-provided.
 - Very large images or large batches can consume substantial device memory.
-- Metadata is intentionally removed when an image is re-encoded through Canvas.
+- Canvas re-encoding normally removes EXIF metadata. If the app keeps the original file to save space, the saved copy retains its metadata, including any location information.
 - Animated images are not preserved as animation by the current image-processing flow.
 
 ## Dependencies
