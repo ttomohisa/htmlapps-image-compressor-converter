@@ -21,6 +21,34 @@ beforeEach(async () => {
 });
 afterEach(async () => page.context().close());
 
+test('keyboard activation opens the file picker belonging to the focused button', async () => {
+  for (const [control, input] of [['#folderButton', 'folderInput'], ['#addButton', 'fileInput'], ['#dropZone', 'fileInput']]) {
+    for (const key of ['Enter', 'Space']) {
+      const waiting = page.waitForEvent('filechooser');
+      await page.locator(control).press(key);
+      assert.equal(await (await waiting).element().getAttribute('id'), input);
+    }
+  }
+});
+
+test('format cards show the size and dimensions that are actually selected under a size limit', async () => {
+  await page.locator('#fileInput').setInputFiles(path.resolve(__dirname, '../assets/screenshot.png'));
+  await page.locator('[data-preset="upload"]').click();
+  await page.locator('#targetKb').fill('10');
+  await page.locator('#targetKb').press('Tab');
+  await page.locator('#compareFormatsButton').click();
+  const pngCard = page.locator('.candidate-card').filter({ hasText: 'PNG' });
+  const description = await pngCard.locator('.candidate-meta').innerText({ timeout: 30000 });
+  await pngCard.click();
+  await page.locator('#saveCard').waitFor();
+  const size = (await page.locator('#outputSizeValue').innerText()).split(' · ')[0];
+  const dimensions = await page.locator('#dimensionValue').innerText();
+  assert.equal(description, size + ' · ' + dimensions);
+  await page.locator('#targetKb').fill('20');
+  await page.locator('#targetKb').press('Tab');
+  assert.ok(await page.locator('#candidatePanel').isHidden(), 'refresh a comparison after its settings change');
+});
+
 async function png(name = 'logo.png', fineAlpha = false) {
   const data = await page.evaluate(fine => {
     const canvas = document.createElement('canvas');

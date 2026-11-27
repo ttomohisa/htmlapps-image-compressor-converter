@@ -21,7 +21,7 @@
 - PNG / JPEG / WebP input with multiple-file and folder selection.
 - Browser-supported JPEG / PNG / WebP output.
 - Purpose-based presets for common image workflows.
-- Smart Optimize compares candidate formats and quality levels using a local visual-difference score.
+- Smart Optimize respects the quality ceiling and compares candidates using a local visual-difference score. In quality-based searches with no passing candidate, return the closest measured match. An unavailable WebP encoder falls back to JPEG for opaque inputs or PNG for transparent inputs.
 - Target-size mode searches quality and, when required, progressively reduces dimensions to approach the requested KB limit.
 - Automatic comparisons preserve transparency, including a single translucent pixel at the original resolution.
 - Resize by long edge, width, height or no resize; preserve aspect ratio and never upscale.
@@ -29,7 +29,7 @@
 - Batch completion and cancellation report successes and failures for that run. Cancellation takes effect between files. The list keeps failure counts visible alongside the size summary for available outputs.
 - Both comparison views place the source on the left and the output on the right of the divider.
 - Amplified pixel-difference view for subtle compression changes.
-- Separate on-demand JPEG / PNG / WebP format comparison.
+- On-demand format comparison measures the actual selectable output, including target size, dimensions and source retention. Selecting a card reuses its measured bytes, and changes to conversion settings invalidate previous comparisons.
 - Large preview dialog with 100–400% zoom, drag-to-pan, pinch zoom and Before / After comparison.
 - Editable output filename while the app controls the matching extension.
 - Single-image save and batch ZIP; batch ZIP preserves relative folder paths.

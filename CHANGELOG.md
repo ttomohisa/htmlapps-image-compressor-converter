@@ -2,6 +2,9 @@
 
 ## 1.2.0 - 2026-11-27
 
+- Fixed keyboard activation of the folder picker. Enter and Space now open the picker of the focused control.
+- Format comparison applies the current size limit and source-retention settings. Selecting a card uses the measured result. Changing conversion settings clears stale cards.
+- Smart Optimize respects the quality ceiling during size searches, offers the closest visual match if no candidate meets the quality threshold, and falls back to JPEG or transparent PNG when WebP encoding is unavailable.
 - Added **View results** to the mobile action bar. After a mixed batch it opens an available output, even if the selected image failed.
 - Batch completion and cancellation now report how many images succeeded and failed. The image list shows failures alongside the size savings.
 - Fixed the Before / After divider in both previews. The original appears on the left and the output on the right.

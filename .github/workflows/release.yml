@@ -30,6 +30,21 @@ jobs:
         run: |
           $env:SOURCE_DATE_EPOCH = git show -s --format=%ct HEAD
           ./scripts/check-repository.ps1
+      - name: Exercise both downloads in Chromium
+        if: steps.version.outputs.tag != ''
+        shell: pwsh
+        run: |
+          $tools = Join-Path $env:RUNNER_TEMP 'release-browser-tests'
+          npm install --prefix $tools --ignore-scripts --no-audit --no-fund --package-lock=false playwright@1.58.2
+          if ($LASTEXITCODE -ne 0) { throw 'Playwright installation failed' }
+          $env:NODE_PATH = Join-Path $tools 'node_modules'
+          & (Join-Path $tools 'node_modules/.bin/playwright.cmd') install chromium
+          if ($LASTEXITCODE -ne 0) { throw 'Chromium installation failed' }
+          foreach ($download in @('dist/index.html', 'dist/index.self-extract.html')) {
+            $env:IMAGE_SOURCE = $download
+            node --test scripts/conversion-review.browser.cjs scripts/smart-optimize.browser.cjs
+            if ($LASTEXITCODE -ne 0) { throw "Browser tests failed for $env:IMAGE_SOURCE" }
+          }
       - name: Stage verified HTML files
         if: steps.version.outputs.tag != ''
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

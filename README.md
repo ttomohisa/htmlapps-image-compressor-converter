@@ -75,6 +75,10 @@ The archive keeps image order and relative folders. Exact duplicate paths receiv
 
 ### Before / After comparison
 
+Use **Compare JPEG / PNG / WebP** to see the dimensions and file size you would save under the current settings. Cards indicate when the original would be kept or the size limit exceeded. Select a card to use that result.
+
+Smart Optimize respects the quality ceiling. When no candidate meets its visual threshold, it uses the closest measured match. A browser without WebP encoding can still convert to JPEG or, for transparent images, PNG.
+
 The draggable divider shows the original on the left and the output on the right in both the workbench and the large preview. With high-quality compression, visible differences can be extremely small even when the file-size reduction is substantial.
 
 Use **Highlight differences** to generate an amplified pixel-difference view when you want to verify where the converted image differs from the source.
