@@ -52,14 +52,25 @@ async function main() {
 
             assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), label + ': page width');
 
+            const opener = page.locator('#openSettingsButton');
+            assert.equal(await page.locator('#autoCompressInput').isChecked(), true, label + ': automatic import by default');
+            await opener.click();
+            const settings = page.locator('#settingsPanel');
+            assert.equal(await settings.evaluate(el => el.matches(':modal')), true, label);
+            assert.ok(await settings.evaluate(el => {
+              const r = el.getBoundingClientRect();
+              return r.left >= -1 && r.right <= innerWidth + 1 && r.top >= -1 && r.bottom <= innerHeight + 1;
+            }), label + ': settings fit');
+            await page.keyboard.press('Escape');
+            assert.ok(await opener.evaluate(el => el === document.activeElement), label + ': settings return focus');
+
             await page.locator('#helpButton').click();
             const body = page.locator('#helpDialog .dialog-body');
             assert.equal(await page.locator('#helpCloseButton').getAttribute('aria-label'), language === 'ja' ? '閉じる' : 'Close', label);
             const steps = body.locator('ol > li');
             assert.equal(await steps.count(), 3, label);
             const instructions = await steps.allInnerTexts();
-            const action = width <= 720 ? await page.locator('#mobileProcessButton span').textContent() : 'Smart Optimize';
-            assert.ok(instructions[1].includes(action), label + ': help names the visible conversion action');
+            assert.match(instructions[1], language === 'ja' ? /自動.*プレビュー/ : /automatically.*preview/, label + ': automatic workflow');
             assert.ok(instructions.every(step => step.length <= (language === 'ja' ? 40 : 80)), label + ': concise steps');
             const topics = body.locator('details');
             assert.equal(await topics.count(), 3, label);

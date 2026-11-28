@@ -26,6 +26,7 @@ async function openImage(t, {noise = false, alpha = false, noWebP = false, edge 
     });
   }
   await page.goto(artifact);
+  await page.locator('#autoCompressInput').uncheck();
   const data = await page.evaluate(({noise, alpha, edge}) => {
     const canvas = document.createElement('canvas');
     canvas.width = canvas.height = edge;
@@ -42,6 +43,7 @@ async function openImage(t, {noise = false, alpha = false, noWebP = false, edge 
     return canvas.toDataURL().split(',')[1];
   }, {noise, alpha, edge});
   await page.locator('#fileInput').setInputFiles({name: 'sample.png', mimeType: 'image/png', buffer: Buffer.from(data, 'base64')});
+  await page.locator('#workspaceSettingsButton').click();
   await page.locator('[data-preset="convert"]').click();
   return page;
 }
@@ -50,6 +52,7 @@ async function optimize(page) {
   await page.locator('#smartOptimizeButton').click();
   await page.waitForFunction(() => !document.querySelector('#smartOptimizeButton').disabled);
   assert.ok(await page.locator('.file-status.done').count(), await page.locator('#batchSummary').innerText());
+  await page.locator('#outputDetails summary').click();
 }
 
 for (const noise of [false, true]) {

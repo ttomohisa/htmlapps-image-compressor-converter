@@ -10,18 +10,18 @@
 
 ## Core flow
 
-1. Start screen: add one or more PNG, JPEG or WebP images, or begin from a purpose preset. Desktop also supports clipboard image paste with `Ctrl+V`.
-2. Workbench: select a purpose such as Website, Photo, Screenshot, Size limit, README, Transparency or Convert only.
-3. Optimize: run Smart Optimize, or use the manual “Convert with settings” path.
-4. Review: inspect Before / After, amplified difference, file-size savings, format candidates and large preview.
-5. Save / Export: save the selected image, batch ZIP, or use Export for Base64 and web/developer snippets.
+1. Add PNG, JPEG or WebP images through the picker. Desktop also supports dropping files and pasting an image with `Ctrl+V`. Compression starts automatically for the newly added images.
+2. Review the selected result in the preview. Compare the original with the output and inspect file-size savings. Select other images from the list.
+3. Save the previewed image, save all results or choose a subset for a ZIP. Additional imports append files and preserve earlier results.
+
+To adjust settings first, turn off **Compress on import** / **追加時に自動で圧縮**. Open compression settings to choose a purpose, size limit or quality ceiling, then select **Compress** / **自動圧縮**. Advanced settings provide manual conversion with **Convert with settings** / **設定どおり変換**.
 
 ## Functional requirements
 
 - PNG / JPEG / WebP input with multiple-file and folder selection.
 - Browser-supported JPEG / PNG / WebP output.
 - Purpose-based presets for common image workflows.
-- Smart Optimize respects the quality ceiling and compares candidates using a local visual-difference score. In quality-based searches with no passing candidate, return the closest measured match. An unavailable WebP encoder falls back to JPEG for opaque inputs or PNG for transparent inputs.
+- Automatic compression respects the quality ceiling and compares candidates using a local visual-difference score. In quality-based searches with no passing candidate, return the closest measured match. An unavailable WebP encoder falls back to JPEG for opaque inputs or PNG for transparent inputs.
 - Target-size mode searches quality and, when required, progressively reduces dimensions to approach the requested KB limit.
 - Automatic comparisons preserve transparency, including a single translucent pixel at the original resolution.
 - Resize by long edge, width, height or no resize; preserve aspect ratio and never upscale.
@@ -56,13 +56,13 @@
 ## UX
 
 - Light-only UI aligned with Browser Kitty / `htmlapps-template`.
-- The Start screen introduces PNG, JPEG and WebP compression and conversion in a short paragraph above the image picker. Four purpose presets follow the picker.
+- The Start screen puts the image picker and the enabled-by-default **Compress on import** checkbox first. An optional **Compression settings** / **圧縮設定** button opens the full settings, including purpose presets, before import.
 - After loading images, the header, workbench and footer share the same content width and side padding. The drop icon points down into the tray.
-- Desktop Workbench uses three areas: image list, comparison preview and optimization settings.
+- On desktop, show the comparison preview on the left and the file list with batch controls on the right. Keep the selected image’s save action with its preview. **Compression settings** opens settings on demand.
 - Desktop drop area states that multiple selection is supported and offers `Ctrl+V` clipboard guidance.
 - Mobile file input states that multiple image selection is supported without desktop-only drag/drop or keyboard guidance.
 - Purpose icons and app identity icons use SVG, not emoji.
-- Mobile (<=720px) uses a safe-area-aware fixed action bar and settings bottom sheet.
+- At widths up to 720px show the preview above the file list and batch controls. Keep **Settings** / **設定** in the safe-area-aware fixed bottom bar after import.
 - When an output exists, the mobile bar links directly to its preview. If the selected image failed, the shortcut opens an available result.
 - The mobile settings sheet closes when “Convert with settings” is executed.
 - Visible focus states and `prefers-reduced-motion` support are required.
@@ -82,11 +82,12 @@
 - The header, Help and build manifest report the version from `app.config.json`.
 - No unresolved build placeholders or prohibited external runtime assets exist in generated artifacts.
 - `dist/index.html` works when opened directly with `file://` in a current browser.
-- Core conversion, Smart Optimize, target-size mode, comparison, Base64 and ZIP functions work without runtime network access.
-- Start screen changes to Workbench after images are added and returns to Start after all images are cleared.
+- Automatic compression, manual conversion, target-size mode, comparison, Base64 and ZIP functions work without runtime network access.
+- With default settings, adding a file opens the workspace and produces a result without an extra button press. A later import processes the new files and preserves earlier outputs, filenames and ZIP selections. Clearing all files returns to Start.
+- With **Compress on import** off, added files wait for an explicit compression or conversion action. The picker, preview and save actions are usable with settings closed.
 - Desktop supports multi-file selection, folder selection, drag/drop and clipboard image paste.
 - Mobile avoids desktop-only drag/drop / `Ctrl+V` instructions and supports multiple selection through the file picker.
-- Smart Optimize can keep the source when the generated result would be larger.
+- Automatic compression can keep the source when the generated result would be larger.
 - Target-size mode can reduce both quality and dimensions for JPEG / WebP; PNG can only reduce dimensions.
 - Batch summary shows source size, output size and total savings for available outputs. A mixed batch reports both successes and failures.
 - Before / After divider remains visible while comparison is active, and the difference view can be toggled without changing the output.

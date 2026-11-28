@@ -6,86 +6,52 @@
 
 [English README](README.md)
 
-PNG / JPEG / WebPを対象に、**用途を選ぶだけで形式・品質・解像度を比較し、最適な出力を探す単一HTMLの画像最適化ワークベンチ**です。画像を外部へアップロードせず、Smart Optimizeも端末内だけで動作します。
+PNG・JPEG・WebP画像を端末内で圧縮する単体HTMLアプリです。画像を追加すると圧縮が始まり、元画像と見比べてから保存できます。
 
-[最新版の単体HTMLをダウンロード](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.html) · [リリースノートとその他のダウンロード](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases)
-
-## 🚀 デモ
-
-### [GitHub Pagesで画像圧縮・変換ツールを開く](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
-
-GitHub Pagesから最初のHTMLを読み込んだ後、画像の読み込み・リサイズ・圧縮・形式変換・比較・Base64生成・保存は端末内で処理されます。選択した画像がアプリからサーバーへアップロードされることはありません。
-
-### Start画面
-
-[![画像圧縮・変換ツールのStart画面](assets/screenshot-start.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
-
-### Workbench
-
-[![画像圧縮・変換ツールのWorkbench](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
-
-スマートフォンでは画面下部から設定を開いたり、変換を開始したりできます。変換後は **結果を見る** でプレビューに移動できます。ビルド情報はヘルプの末尾にあります。
-
-![スマホ表示](assets/screenshot-mobile.png)
-
-## 主な機能
-
-- ファイルまたはフォルダから画像を追加。PCでは画像一覧、比較プレビュー、設定を並べて表示
-- **Smart Optimize** で圧縮候補を端末内で比較。形式の自動選択では、半透明のピクセルが1つでもあれば透過に対応する形式を使用
-- **目標容量** で品質と解像度を段階的に調整し、指定したKB数に近づける
-- Webサイト / 写真 / スクリーンショット / 容量制限 / README / 透過画像 / 形式変換の目的ベースプリセット
-- 変換後の方が大きい場合は元画像を自動維持（形式変換を優先したい場合は無効化可能）
-- PCでは **Ctrl+V** でスクリーンショットやコピー画像を直接追加。ファイル選択はPC・スマホとも複数選択に対応
-- 一括変換の進捗と成功・失敗件数を表示。結果を保存できる画像について、元容量・出力容量・合計削減率を集計
-- Before / After、差分強調、100〜400%の拡大プレビュー
-- 保存名を変更し、フォルダ構造を維持してZIP保存。**チェック済みをZIP保存** では対象枚数を確認でき、同名の出力にはZIP内で連番を付けて区別
-- 選択した画像だけを確認後に削除し、ほかの画像と変換結果を維持
-- **書き出し**画面にBase64 / HTML / CSS / Markdown / `<picture>` / Web素材ZIPを集約
-- 日本語 / 英語を同じ単一HTML内で切り替え
-- HTML読込後は **完全ローカル処理**。CSPの `connect-src 'none'` でも実行時通信を禁止
-
-## すぐに使う
-
-### Webで使う
-
-[デモを開く](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)だけで利用できます。インストールやアカウント登録は不要です。
-
-### オフラインで使う
-
-1. 最新リリースから [index.html](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.html) を保存します。
-2. 保存したHTMLをブラウザーで直接開きます。開く前にネットワークを切断しても使えます。
-3. 画像を追加して変換し、結果を保存します。
-
-ダウンロード容量を抑えたい場合は、[自己展開版HTML](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.self-extract.html) を利用できます。gzipの `DecompressionStream` に対応したブラウザーで同じアプリが開きます。両方のファイルを検証する手順は [オフライン検証](VERIFY_OFFLINE.md) にあります。
+[最新リリースから単体HTMLをダウンロード](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest) · [過去のリリース](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases)
 
 ## 使い方
 
-1. **画像を選択**でPNG・JPEG・WebP画像を追加します。
-2. PCでは用途を選んで **Smart Optimize**、スマホでは画面下の **自動圧縮** を押します。
-3. プレビューで画質と容量を確認して保存します。スマホでは **結果を見る** でプレビューを開けます。
+[GitHub Pagesで公開中のアプリを開く](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)。以下はバージョン1.2.0の操作手順です。
 
-### 形式や容量を指定する
+1. **画像を追加する。** 画像は複数選択できます。PCではドロップや **Ctrl+V** での貼り付けにも対応しています。追加すると自動で圧縮が始まります。
+2. **結果を見比べる。** プレビューの境界線を動かすと、左に元画像、右に圧縮後の画像が表示されます。出力容量と削減率も確認できます。別の画像は一覧から選びます。
+3. **保存する。** プレビューで開いている結果は **この画像を保存** で保存します。複数枚をまとめて保存するには画像一覧の保存操作を使います。画像を追加しても以前の結果は一覧に残り、追加分だけが圧縮されます。
+
+圧縮する前に設定したいときは **追加時に自動で圧縮** のチェックを外します。**圧縮設定**（画像追加後のスマホでは画面下の **設定**）で用途や目標容量を選び、**自動圧縮** を押してください。
+
+### 画像の追加
+
+[![画像圧縮・変換ツールのStart画面](assets/screenshot-start.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
+
+### プレビューと画像一覧
+
+[![画像圧縮・変換ツールのWorkbench](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
+
+スマホではプレビューの下に画像一覧があります。画面下の **結果を見る** を押すと、圧縮済みの画像に移動できます。
+
+![スマホ表示](assets/screenshot-mobile.png)
+
+## 圧縮設定
 
 - 容量に上限があるときは **目標容量** をオンにしてKB数を入力します。**見た目優先 / サイズ優先** を選び、変換後の容量を確認してください。
-- 形式を指定するには **詳細設定** で形式を選び、**設定どおり変換** を押します。常に指定形式で保存するには **元より大きければ元画像を維持** をオフにします。
+- 寸法や出力形式を指定するには **詳細設定** で値を選び、**設定どおり変換** を押します。常に指定形式で保存するには **元より大きければ元画像を維持** をオフにします。
 
-Smart Optimizeは指定した品質の上限を守り、画質の基準を満たす候補がなければ元画像に最も近い結果を選びます。WebPを出力できないブラウザーでは、透明な画像はPNG、それ以外はJPEGを使います。
+自動圧縮では、透過を保ち、指定した品質の上限内で形式と品質を比較します。WebPを出力できないブラウザーでは、透明な画像はPNG、それ以外はJPEGを使います。
 
-### 複数の画像をZIPで保存する
+## 複数の画像を保存する
 
-保存したい画像にチェックを付けて **チェック済みをZIP保存** を押します。1枚だけでもZIPになります。**すべて / 解除** で、変換済みの画像をまとめて選べます。
+圧縮済みの画像をすべてまとめて保存できます。一部だけを保存するには、対象の画像にチェックを付けて **チェック済みをZIP保存** を押します。チェックは、プレビューで開く画像とは別に選べます。**すべて / 解除** で圧縮済みの画像のチェックを一括で変更できます。
 
-ZIPには元のフォルダ構成が引き継がれます。同じ名前が重なったときは、ZIP内でファイル名に連番が付きます。
+全件を保存すると、結果が1枚なら画像ファイル、複数枚ならZIPになります。**チェック済みをZIP保存** は1枚でもZIPになります。保存名は変更できます。フォルダから追加した画像のフォルダ構成はZIPにも引き継がれ、同じフォルダの同名ファイルには連番が付きます。
 
-### 画質を見比べる
+## 画質を詳しく見比べる
 
-境界線を左右に動かすと、左に元画像、右に変換後の画像が見えます。細かい違いは **差分を強調** で確認できます。
+細かい違いは **差分を強調** や拡大表示で確認できます。**JPEG / PNG / WebPを比較** では、今の設定で形式ごとの容量と画像サイズを比べて、保存する候補を選べます。
 
-**JPEG / PNG / WebPを比較** では、同じ設定で形式ごとの容量と画像サイズを比べられます。保存したい候補を選んでください。
+## Web制作向け出力
 
-### Web制作向け出力
-
-画像変換だけでなく、Web制作ですぐ使える以下の形式も生成できます。
+圧縮済みの画像で **書き出し** を開くと、次の形式を生成できます。
 
 - Base64 Data URI
 - `<img>` 用HTML
@@ -93,6 +59,10 @@ ZIPには元のフォルダ構成が引き継がれます。同じ名前が重�
 - Markdown画像記法
 - フォールバック付き `<picture>`
 - Web素材ZIP。編集した保存名と出力寸法に合わせた画像と `snippet.html` をまとめます。透過画像にはPNG、不透明画像にはJPEGを用意し、ブラウザーが対応していればWebPも含めます。
+
+## オフラインで使う
+
+使いたいリリースから単体HTMLをダウンロードし、ブラウザーで直接開きます。容量の小さい自己展開版HTMLは、gzipの `DecompressionStream` に対応したブラウザーで開けます。どちらもオフラインで画像の比較や書き出しまで利用できます。[最新リリースの配布ファイル](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest) · [オフライン検証](VERIFY_OFFLINE.md)
 
 ## GitHub Pagesで公開する
 
@@ -107,7 +77,7 @@ GitHub Pagesがまだ有効化されていない場合は、ビルド自体を�
 
 ## GitHub Releasesで配布する
 
-`main` へのプッシュで `app.config.json` の `version` がプッシュ前より上がると、リリース用ワークフローが起動します。リポジトリ検証の成功後、プッシュされたコミットに `vX.Y.Z` のタグを付け、`index.html` と `index.self-extract.html` を公開します。上記のダウンロードリンクは最新の公開リリースを指します。[メンテナー向け手順](CONTRIBUTING.md)
+`main` へのプッシュで `app.config.json` の `version` がプッシュ前より上がると、リリース用ワークフローが起動します。リポジトリ検証の成功後、プッシュされたコミットに `vX.Y.Z` のタグを付けます。1.2.0の公開以降は、次の固定名で最新版をダウンロードできます。[index.html](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.html) · [index.self-extract.html](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.self-extract.html) · [メンテナー向け手順](CONTRIBUTING.md)
 
 ## 開発とビルド
 
