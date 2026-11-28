@@ -4,7 +4,11 @@ $Root=Split-Path -Parent $MyInvocation.MyCommand.Path;$Template=Join-Path $Root 
 $config=Get-Content -Raw -Encoding UTF8 $ConfigPath|ConvertFrom-Json
 if([string]::IsNullOrWhiteSpace($OutputPath)){$OutputPath=Join-Path $Root ([string]$config.build.output)}elseif(-not [IO.Path]::IsPathRooted($OutputPath)){$OutputPath=Join-Path $Root $OutputPath}
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $OutputPath)|Out-Null
-$manifest=[ordered]@{schemaVersion=1;builder="htmlapps-template-compatible/1.0";generatedAtUtc=[DateTime]::UtcNow.ToString("o");app=[ordered]@{name=[string]$config.name;slug=[string]$config.slug;version=[string]$config.version};dependencies=@()}
+$buildTime = [DateTime]::UtcNow
+if ($env:SOURCE_DATE_EPOCH) {
+    $buildTime = [DateTimeOffset]::FromUnixTimeSeconds([long]$env:SOURCE_DATE_EPOCH).UtcDateTime
+}
+$manifest=[ordered]@{schemaVersion=1;builder="htmlapps-template-compatible/1.0";generatedAtUtc=$buildTime.ToString("o");app=[ordered]@{name=[string]$config.name;slug=[string]$config.slug;version=[string]$config.version};dependencies=@()}
 function SafeJson([object]$v,[int]$d=20){return($v|ConvertTo-Json -Compress -Depth $d).Replace("<","\u003c").Replace(">","\u003e").Replace("&","\u0026")}
 $html=[IO.File]::ReadAllText($Template,[Text.Encoding]::UTF8)
 $repl=[ordered]@{"__APP_CONFIG_JSON__"=SafeJson $config 20;"__BUILD_MANIFEST_JSON__"=SafeJson $manifest 20;"__EMBEDDED_ASSET_BUNDLE_BASE64__"=[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('{"schemaVersion":1,"dependencies":{}}'))}

@@ -1,0 +1,2 @@
+# The downloadable bytes must match the checksums on Windows and Unix.
+*.html text eol=lf

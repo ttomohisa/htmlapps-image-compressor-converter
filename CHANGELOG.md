@@ -1,9 +1,21 @@
 # Changelog
 
-## Unreleased — mobile Help layout
+## 1.2.0 - 2026-11-27
 
-- Hide the informational footer at 720px and below; move existing build information to the end of Help without changing functional bottom controls.
-- Preserve localized build values, keyboard access, and existing visibility policies; standardize the exact local-processing label.
+- Adding images now starts compression on your device. Later imports compress only the new images and preserve previous results. Turn off **Compress on import** to adjust settings before starting.
+- The preview and its save action open beside the file list on desktop and above it on phones. Batch save and checked ZIP controls are grouped with the list. Purpose presets, size limits and manual conversion are available in compression settings.
+- Fixed keyboard activation of the folder picker. Enter and Space now open the picker of the focused control.
+- Format comparison applies the current size limit and source-retention settings. Selecting a card uses the measured result. Changing conversion settings clears stale cards.
+- Automatic compression respects the quality ceiling during size searches, offers the closest visual match if no candidate meets the quality threshold, and falls back to JPEG or transparent PNG when WebP encoding is unavailable.
+- Added **View results** to the mobile action bar. After a mixed batch it opens an available output, even if the selected image failed.
+- Batch completion and cancellation now report how many images succeeded and failed. The image list shows failures alongside the size savings.
+- Fixed the Before / After divider in both previews. The original appears on the left and the output on the right.
+- Automatic format comparison detects even a single translucent pixel and offers PNG and supported WebP for transparent images. Retained originals use the detected file extension and show a reminder that their existing metadata, including location, is preserved.
+- The Web assets ZIP and copied `<picture>` markup use the edited filename and output dimensions. Renamed files with spaces or non-ASCII characters can be referenced by the packaged snippet.
+- Shortened Help to three device-specific steps with expandable tips. The header describes batch compression, resizing and conversion. The drop arrow points down, and the header and footer align with the loaded image workspace.
+- Replaced the Start screen headline with a short description above the image picker. The local-processing badge is visible on desktop and hidden on mobile.
+- Moved build information to the end of Help, hid the informational footer at widths of 720 px or less, and aligned the header, local-processing badge and Help with the shared app design.
+- Added automatic GitHub Releases for version increases on `main`, with direct downloads of the verified standalone HTML and its self-extracting variant.
 
 ## 1.1.2 - 2026-10-10
 

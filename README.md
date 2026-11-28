@@ -6,103 +6,63 @@
 
 [日本語版 README](README.ja.md)
 
-A privacy-focused, single-HTML image optimization workbench for PNG, JPEG and WebP. Smart Optimize compares formats and quality locally, while target-size mode can reduce both quality and dimensions to hit practical upload limits.
+A single-file app for PNG, JPEG and WebP. Add images to compress them on your device, compare the result with the original and save a copy.
 
-## 🚀 Live demo
+[Download a standalone HTML from the latest release](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest) · [Release history](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases)
 
-### [Open Image Compressor & Converter on GitHub Pages](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
+## Quick start
 
-GitHub Pages delivers the initial HTML. After it loads, image decoding, resizing, compression, format conversion, comparison, Base64 generation and export are processed locally on your device. Images you select are not uploaded by the app.
+[Open the deployed app on GitHub Pages](https://ttomohisa.github.io/htmlapps-image-compressor-converter/). The following steps describe version 1.2.0.
+
+1. **Add images.** Choose one or more files, drop them onto the desktop picker or paste a copied image with **Ctrl+V** on desktop. Compression starts as soon as you add them.
+2. **Compare.** Drag the preview divider to see the original on the left and the result on the right. Check the output size and savings. Choose another file in the list to review it.
+3. **Save.** Choose **Save this image** for the previewed result. To save several together, use the batch controls by the file list. Adding more images compresses the new files and keeps earlier results available.
+
+To choose settings before compression, turn off **Compress on import**. Open **Compression settings** (or **Settings** in the phone’s bottom bar after import), choose a purpose or size limit and press **Compress** when ready.
 
 ### Start screen
 
 [![Image Compressor & Converter start screen](assets/screenshot-start-en.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
-### Workbench
+### Comparison and file list
 
 [![Image Compressor & Converter workbench](assets/screenshot-en.png)](https://ttomohisa.github.io/htmlapps-image-compressor-converter/)
 
-The mobile layout is designed to feel closer to a native app, with primary actions fixed near the bottom of the screen and conversion settings shown as a safe-area-aware bottom sheet.
+On a phone, the file list sits below the preview. **View results** in the bottom bar takes you to a finished image.
 
 ![Mobile UI](assets/screenshot-mobile-en.png)
 
-## Features
+## Compression settings
 
-- Help keeps Close visible while its content scrolls in short viewports; open dialogs lock background scrolling, and narrow headers keep the version visible.
+- For an upload limit, enable **Target size**, enter the limit in KB and check the file size after conversion. Choose **Appearance first** or **Size first** to set your priority.
+- To resize or convert to a specific format, open **Advanced settings**, set the dimensions or format and select **Convert with settings**. Turn off **Keep source if output is larger** to always save in the selected format.
 
-- Export only checked outputs as ZIP with per-image checkboxes, All / None and a live count
-- Collision-safe ZIP names preserve every image when converted or edited names match
+Automatic compression compares formats and quality on your device. It preserves transparency and respects the quality ceiling. If the browser cannot encode WebP, it uses PNG for transparent images or JPEG for opaque ones.
 
-- Remove one selected image with confirmation, retaining all other images and converted results
+## Save several images
 
-- **Start → Workbench UI**: a simple purpose-first start screen becomes a three-column image / preview / optimization workbench
-- **Smart Optimize**: locally compares JPEG / WebP / PNG candidates and uses a lightweight visual-difference score to choose the smallest acceptable output
-- **Adaptive target size**: searches quality first and progressively reduces dimensions when needed to reach the requested KB limit
-- Purpose presets for websites, photos, screenshots, upload limits, README assets, transparent images and format-only conversion
-- Automatically keeps the source file when conversion would make it larger (can be disabled for intentional format conversion)
-- On desktop, paste screenshots and copied images directly with **Ctrl+V**; file picking supports multiple images on desktop and mobile
-- Batch summary showing total source size, output size and savings
-- Before / After slider, amplified difference view and 100–400% large preview
-- JPEG / PNG / WebP comparison, editable filenames and folder-aware ZIP export
-- Dedicated **Export** dialog for Base64, HTML, CSS, Markdown, `<picture>` and Web-assets ZIP
-- Japanese / English UI in the same standalone HTML
-- **Fully local processing** after the HTML is loaded; runtime network access is blocked with `connect-src 'none'`
+Save all finished images together, or check the ones you want and choose **Save checked ZIP**. Checking an image selects it for the ZIP independently of which preview is open. **All / None** changes the selection for finished images.
 
-## Quick start
+Saving all downloads an image directly for one result and a ZIP for several. **Save checked ZIP** always downloads a ZIP, even for one image. You can edit filenames before saving. When you add a folder, its structure is preserved in the ZIP. Matching names in the same folder receive numbered suffixes.
 
-### Use the web demo
+## Compare image quality
 
-Just [open the demo](https://ttomohisa.github.io/htmlapps-image-compressor-converter/). No installation or account is required.
+Use **Highlight differences** or zoom in to see fine detail. **Compare JPEG / PNG / WebP** shows the size and dimensions for each format under your current settings. Select a result to use it for saving.
 
-### Use the standalone HTML
+## Developer exports
 
-1. Download [`dist/index.html`](https://github.com/ttomohisa/htmlapps-image-compressor-converter/blob/main/dist/index.html) from this repository.
-2. Open it in a current Chromium-based browser, Firefox, or Safari.
-3. Add one or more images and process them entirely in the browser.
-
-### Use it fully offline (advanced)
-
-1. Download or clone this repository.
-2. Double-click `build-standalone.bat` on Windows.
-3. Copy the generated `dist/index.html` wherever you need it.
-4. Open that single file later without an internet connection.
-
-The repository also generates `dist/index.self-extract.html`, a smaller self-extracting HTML variant.
-
-Python, Node.js and a local web server are not required for the normal build. The builder uses Windows PowerShell and the built-in `tar.exe` infrastructure from `htmlapps-template`.
-
-## Usage
-
-1. Add one or more PNG, JPEG or WebP images. On desktop, you can also paste screenshots or copied images with **Ctrl+V**. The file picker supports multiple selection on desktop and mobile.
-2. Choose a purpose such as **Website**, **Photo**, **Screenshot** or **Size limit**.
-3. Run **Smart Optimize**. The app compares candidate formats / quality levels locally and picks the smallest result that meets its visual threshold.
-4. For upload constraints, enable **Target size** and enter the maximum KB. Choose **Appearance first** or **Size first**.
-5. Review Before / After, the difference view and batch savings.
-6. Save the current image, save the batch as ZIP, or open **Export** for web/developer output.
-7. Use **Advanced settings** when you need an exact format, resize rule or quality ceiling.
-
-### Save checked outputs
-
-Use the checkbox beside each image to include its available output, then choose **Save checked ZIP**. **All / None** changes only available outputs. New images start checked, and their checks become eligible after conversion. Checks stay separate from the preview and **Remove selected**, survive reprocessing, and are kept only for this session. The dedicated action always creates a ZIP, even for one image; the existing current-image and all-output actions keep their behavior.
-
-The archive keeps image order and relative folders. Exact duplicate paths receive numbered suffixes such as `photo (3).webp`; existing names such as `photo (2).webp` are reserved. Edited output names remain unchanged. ZIP paths are case-sensitive.
-
-### Before / After comparison
-
-The normal comparison places the original and converted image at the same coordinates and reveals them with a draggable divider. With high-quality compression, visible differences can be extremely small even when the file-size reduction is substantial.
-
-Use **Highlight differences** to generate an amplified pixel-difference view when you want to verify where the converted image differs from the source.
-
-### Developer exports
-
-For web-development workflows, the app can generate:
+Open **Export** for any converted image to generate any of the following.
 
 - Base64 data URI
 - `<img>` HTML
 - CSS `background-image`
 - Markdown image syntax
 - `<picture>` markup with a fallback image
-- A ready-to-download web-assets ZIP
+- A web-assets ZIP with `snippet.html`, a PNG fallback for transparent images or a JPEG fallback for opaque images, and a WebP when the browser supports encoding it. The image files use the edited output name. The markup references those files and includes their dimensions.
+
+## Use it offline
+
+Download the standalone HTML asset from the release you want and open it directly in your browser. The smaller self-extracting HTML requires gzip `DecompressionStream` support. Both work offline, including the image comparison and export tools. [Latest release assets](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest) · [Offline verification](VERIFY_OFFLINE.md)
 
 ## Publish with GitHub Pages
 
@@ -114,6 +74,10 @@ The repository includes a workflow that builds the standalone HTML, verifies its
 4. After a successful deployment, the demo is available at `https://ttomohisa.github.io/htmlapps-image-compressor-converter/`.
 
 If GitHub Pages has not been enabled yet, the workflow keeps the successful build result and skips deployment with setup guidance instead of failing at `configure-pages`.
+
+## GitHub Releases
+
+A push to `main` that increases `version` in `app.config.json` over the previous tip triggers a release. After the repository checks pass, the workflow publishes tag `vX.Y.Z` at the pushed commit. Starting with the 1.2.0 release, the two downloads have stable names. [index.html](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.html) · [index.self-extract.html](https://github.com/ttomohisa/htmlapps-image-compressor-converter/releases/latest/download/index.self-extract.html) · [Maintainer instructions](CONTRIBUTING.md)
 
 ## Development and build layout
 
@@ -133,16 +97,17 @@ If GitHub Pages has not been enabled yet, the workflow keeps the successful buil
 │  └─ index.self-extract.html    # Self-extracting variant
 └─ .github/workflows/
    ├─ build-standalone.yml        # Build validation
-   └─ deploy-pages.yml            # GitHub Pages deployment
+   ├─ deploy-pages.yml            # GitHub Pages deployment
+   └─ release.yml                 # Versioned GitHub Releases
 ```
 
-Build locally with:
+Build from a Windows checkout with PowerShell and the built-in .NET gzip support.
 
 ```bat
 build-standalone.bat
 ```
 
-The build process generates the standalone HTML and verifies that no unresolved build placeholders or prohibited runtime-network references remain.
+This creates both HTML files in `dist/` and checks the readable HTML for placeholders, CSP and external asset references. With Node.js 20+ available, run `.\scripts\check-repository.ps1` from PowerShell for the regression tests, artifact parity checks and a local simulation of release publishing.
 
 ## Privacy and runtime network protection
 
@@ -164,7 +129,7 @@ The GitHub Pages version requires the initial HTML request. After loading, image
 - Exact compressed size can differ between browsers because encoding is browser-provided.
 - Very large images or large batches can consume substantial device memory.
 - Canvas re-encoding normally removes EXIF metadata. If the app keeps the original file to save space, the saved copy retains its metadata, including any location information.
-- Animated images are not preserved as animation by the current image-processing flow.
+- Canvas re-encoding produces a still image. A retained original keeps its animation.
 
 ## Dependencies
 
@@ -181,7 +146,3 @@ Bug reports and feature proposals are welcome through GitHub Issues. See [CONTRI
 Copyright © 2026 ttomohisa
 
 Licensed under the [MIT License](LICENSE).
-
-Repository checks (`scripts/check-repository.ps1`) also run the dependency-free regression suite and require Node.js 20 or newer. Run it directly with `node --test tests/*.test.mjs`.
-
-The loaded large-preview controls and Export code panel also stay inside narrow dialog widths. Confirmation messages/actions scroll beneath a fixed header on short screens.

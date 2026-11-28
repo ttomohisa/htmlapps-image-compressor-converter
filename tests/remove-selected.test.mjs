@@ -66,7 +66,7 @@ test('late conversion cannot allocate or attach output to a removed item', async
 });
 test('English/Japanese labels, help and native keyboard action remain available', async () => {
   assert.match(html, /<button[^>]+id="removeSelectedButton"[^>]+type="button"/);
-  const a = app(); a.setLang('en'); assert.equal(a.E.removeSelectedButton.textContent, 'Remove selected'); assert.match(a.I.en.helpUse1, /Remove selected/); a.setLang('ja'); assert.equal(a.E.removeSelectedButton.textContent, '選択画像を削除'); assert.match(a.I.ja.helpUse1, /選択画像を削除/); a.select('b', true); await a.remove(); assert.equal(a.document.activeElement.dataset.id, 'c');
+  const a = app(); a.setLang('en'); assert.equal(a.E.removeSelectedButton.textContent, 'Remove selected'); assert.match(a.I.en.helpRemove, /Remove selected/); a.setLang('ja'); assert.equal(a.E.removeSelectedButton.textContent, '選択画像を削除'); assert.match(a.I.ja.helpRemove, /選択画像を削除/); a.select('b', true); await a.remove(); assert.equal(a.document.activeElement.dataset.id, 'c');
 });
 test('selection away and back still invalidates an earlier comparison', async () => {
   const a = app(); const pending = a.compareFormats(); await tick(); a.select('b'); a.select('a'); await a.flush(); await pending; assert.equal(a.created.length, 0); assert.match(a.E.candidateGrid.innerHTML, /blob:candidate-a/);

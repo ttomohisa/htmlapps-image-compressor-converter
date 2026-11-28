@@ -5,17 +5,18 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { chromium } = require('playwright');
+const version = require('../app.config.json').version;
 const buildSelector = '#buildInfo';
 
 async function main() {
   const results = path.resolve(__dirname, '..', 'test-results', 'mobile-help');
   fs.mkdirSync(results, { recursive: true });
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
   try {
     for (const file of ['dist/index.html', 'dist/index.self-extract.html', 'image-compressor-converter.html']) {
       for (const language of ['ja', 'en']) {
-        for (const [width, height] of [[1360, 900], [721, 568], [720, 568], [360, 640], [320, 568], [393, 252]]) {
-          const context = await browser.newContext({ viewport: { width, height }, locale: language, reducedMotion: 'reduce' });
+        for (const [width, height, hasTouch = false] of [[1360, 900], [844, 390, true], [721, 568], [720, 568], [360, 640], [320, 568], [393, 252]]) {
+          const context = await browser.newContext({ viewport: { width, height }, hasTouch, locale: language, reducedMotion: 'reduce' });
           const page = await context.newPage();
           const errors = [], requests = [];
           page.on('pageerror', error => errors.push(error.message));
@@ -26,27 +27,68 @@ async function main() {
             await page.goto(pathToFileURL(path.resolve(__dirname, '..', file)).href);
             await page.locator('#helpButton').waitFor();
             if (await page.locator('html').getAttribute('lang') !== language) await page.locator('#languageButton').click();
-            assert.equal(await page.locator('[data-i18n="localBadge"]').innerText(), language === 'en' ? 'Fully local processing' : '完全ローカル処理', label);
-            assert.ok(await page.locator('.local-badge').evaluate(el => {
-              const box = el.getBoundingClientRect();
-              const range = document.createRange();
-              range.selectNodeContents(el.querySelector('[data-i18n="localBadge"]'));
-              return box.left >= 0 && box.right <= innerWidth && el.scrollWidth <= el.clientWidth + 1
-                && [...range.getClientRects()].every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1 && rect.top >= box.top - 1 && rect.bottom <= box.bottom + 1);
-            }), label + ': badge text fits');
+            const description = page.locator('#inputPanel [data-i18n="startDescription"]');
+            assert.ok(await description.isVisible(), label + ': description next to the image input');
+            assert.match(await description.innerText(), language === 'en' ? /compress.*convert/i : /圧縮・変換/, label);
+            assert.ok(await page.getByRole('heading', { level: 1, name: /画像圧縮・変換ツール|Image Compressor & Converter/ }).isVisible(), label);
+            assert.equal(await page.locator('.start-kicker, #heroTitle, [data-i18n="startTitle"]').count(), 0, label);
+            const badge = page.locator('.local-badge');
+            const showBadge = width > 720 && !(hasTouch && height <= 600);
+            assert.equal(await badge.isVisible(), showBadge, label + ': desktop privacy badge');
+            if (showBadge) {
+              assert.equal(await badge.innerText(), language === 'en' ? 'Fully local processing' : '完全ローカル処理', label);
+              assert.ok(await badge.evaluate(el => {
+                const box = el.getBoundingClientRect();
+                const range = document.createRange();
+                range.selectNodeContents(el.querySelector('[data-i18n="localBadge"]'));
+                return box.left >= 0 && box.right <= innerWidth && el.scrollWidth <= el.clientWidth + 1
+                  && [...range.getClientRects()].every(rect => rect.left >= box.left - 1 && rect.right <= box.right + 1 && rect.top >= box.top - 1 && rect.bottom <= box.bottom + 1);
+              }), label + ': badge text fits');
+            } else {
+              assert.doesNotMatch(await page.locator('body').innerText(), /完全ローカル処理|Fully local processing/i, label);
+            }
             assert.equal(await page.locator('main').locator(buildSelector).count(), 0, label);
             assert.equal(await page.locator('footer').isVisible(), width > 720, label);
 
             assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), label + ': page width');
 
+            const opener = page.locator('#openSettingsButton');
+            assert.equal(await page.locator('#autoCompressInput').isChecked(), true, label + ': automatic import by default');
+            await opener.click();
+            const settings = page.locator('#settingsPanel');
+            assert.equal(await settings.evaluate(el => el.matches(':modal')), true, label);
+            assert.ok(await settings.evaluate(el => {
+              const r = el.getBoundingClientRect();
+              return r.left >= -1 && r.right <= innerWidth + 1 && r.top >= -1 && r.bottom <= innerHeight + 1;
+            }), label + ': settings fit');
+            await page.keyboard.press('Escape');
+            assert.ok(await opener.evaluate(el => el === document.activeElement), label + ': settings return focus');
+
             await page.locator('#helpButton').click();
             const body = page.locator('#helpDialog .dialog-body');
+            assert.equal(await page.locator('#helpCloseButton').getAttribute('aria-label'), language === 'ja' ? '閉じる' : 'Close', label);
+            const steps = body.locator('ol > li');
+            assert.equal(await steps.count(), 3, label);
+            const instructions = await steps.allInnerTexts();
+            assert.match(instructions[1], language === 'ja' ? /自動.*プレビュー/ : /automatically.*preview/, label + ': automatic workflow');
+            assert.ok(instructions.every(step => step.length <= (language === 'ja' ? 40 : 80)), label + ': concise steps');
+            const topics = body.locator('details');
+            assert.equal(await topics.count(), 3, label);
+            for (const topic of await topics.all()) {
+              const summary = topic.locator('summary');
+              await summary.focus();
+              await summary.press('Enter');
+              assert.equal(await topic.evaluate(el => el.open), true, label);
+              await summary.press('Enter');
+              assert.equal(await topic.evaluate(el => el.open), false, label);
+            }
             assert.ok(await body.evaluate(el => el.lastElementChild.matches('#buildInfo')), label);
             assert.equal(await page.locator(buildSelector).count(), 1, label);
             assert.equal(await page.locator(buildSelector).isVisible(), true, label);
             for (const id of ['buildInfo']) assert.equal(await page.locator('#' + id).count(), 1, label);
 
-            assert.match(await page.locator('#buildInfo').innerText(), /v1\.1\.2/, label + ': localized build text');
+            assert.equal(await page.locator('#versionBadge').innerText(), 'v' + version, label + ': header version');
+            assert.ok((await page.locator('#buildInfo').innerText()).includes(' v' + version + ' · '), label + ': localized build text');
             await body.evaluate(el => { el.scrollTop = el.scrollHeight; });
             const finalItem = page.locator('#buildInfo');
             const finalBox = await finalItem.boundingBox(), bodyBox = await body.boundingBox();

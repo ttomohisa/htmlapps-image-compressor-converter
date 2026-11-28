@@ -8,7 +8,8 @@ function appSourcePath(override = process.env.IMAGE_SOURCE) { return override ||
 const input = readFileSync(appSourcePath(), 'utf8');
 const html = input.includes("new DecompressionStream('gzip')") ? gunzipSync(Buffer.from(input.match(/atob\('([^']+)'\)/)[1], 'base64')).toString() : input;
 const runtime = html.match(/<script>\s*([\s\S]*?)<\/script>/)[1]
-  .replace('__APP_CONFIG_JSON__', '{}').replace('__BUILD_MANIFEST_JSON__', '{}')
+  .replace('__APP_CONFIG_JSON__', () => readFileSync(new URL('../app.config.json', import.meta.url), 'utf8').trim())
+  .replace('__BUILD_MANIFEST_JSON__', '{}')
   .replace('}init();', '}');
 const tick = () => new Promise(resolve => setImmediate(resolve));
 

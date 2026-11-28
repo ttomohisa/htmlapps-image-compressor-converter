@@ -50,7 +50,7 @@ jobs:
         New-Item -ItemType Directory -Force -Path test-results/mobile-help | Out-Null
         node scripts/mobile-help.browser.cjs 2>&1 | Tee-Object -FilePath test-results/mobile-help/results.log
         if ($LASTEXITCODE -ne 0) { throw "Mobile Help browser regression failed." }
-        node --test scripts/conversion-review.browser.cjs
+        node --test scripts/conversion-review.browser.cjs scripts/smart-optimize.browser.cjs
         if ($LASTEXITCODE -ne 0) { throw "Conversion browser regression failed." }
     - name: Upload mobile Help browser evidence
       if: always()
