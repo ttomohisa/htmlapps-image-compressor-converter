@@ -112,10 +112,10 @@ test('Save all and Save this image keep existing behavior regardless of checkbox
   const b = app(); b.E.checkNoneButton.onclick(); await b.saveAll(); assert.equal((await entries(b.downloads[0].blob)).length, 3);
 });
 test('bilingual controls, help and accessible checkbox labels distinguish preview from export', () => {
-  const a = app([item('a', '<special>&.png')]); a.setLang('en'); assert.equal(a.E.saveCheckedButton.textContent, 'Save checked ZIP'); assert.equal(a.E.checkAllButton.textContent, 'All'); assert.equal(a.E.checkNoneButton.textContent, 'None'); assert.match(a.I.en.helpUse3, /Save checked ZIP/);
+  const a = app([item('a', '<special>&.png')]); a.setLang('en'); assert.equal(a.E.saveCheckedButton.textContent, 'Save checked ZIP'); assert.equal(a.E.checkAllButton.textContent, 'All'); assert.equal(a.E.checkNoneButton.textContent, 'None'); assert.match(a.I.en.helpChecked, /Save checked ZIP/);
   assert.match(a.E.fileList.innerHTML, /aria-label="Include in ZIP: folder\/&lt;special&gt;&amp;\.png"/);
   assert.match(a.E.fileList.innerHTML, /<div class="file-entry"><label[^>]*><input[^>]*><\/label><div class="file-row /);
-  a.setLang('ja'); assert.equal(a.E.saveCheckedButton.textContent, 'チェック済みをZIP保存'); assert.match(a.I.ja.helpUse3, /チェック済みをZIP保存/);
+  a.setLang('ja'); assert.equal(a.E.saveCheckedButton.textContent, 'チェック済みをZIP保存'); assert.match(a.I.ja.helpChecked, /チェック済みをZIP保存/);
   assert.match(html, /id="checkedExportControls"/); assert.match(html, /id="mobileSaveButton"/); assert.match(html, /connect-src 'none'/); assert.equal(a.saved.has('image-toolkit.exportChecked'), false);
 });
 

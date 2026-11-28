@@ -10,6 +10,7 @@
 - Fixed the Before / After divider in both previews. The original appears on the left and the output on the right.
 - Automatic format comparison detects even a single translucent pixel and offers PNG and supported WebP for transparent images. Retained originals use the detected file extension and show a reminder that their existing metadata, including location, is preserved.
 - The Web assets ZIP and copied `<picture>` markup use the edited filename and output dimensions. Renamed files with spaces or non-ASCII characters can be referenced by the packaged snippet.
+- Shortened Help to three device-specific steps with expandable tips. The header describes batch compression, resizing and conversion. The drop arrow points down, and the header and footer align with the loaded image workspace.
 - Replaced the Start screen headline with a short description above the image picker. The local-processing badge is visible on desktop and hidden on mobile.
 - Moved build information to the end of Help, hid the informational footer at widths of 720 px or less, and aligned the header, local-processing badge and Help with the shared app design.
 - Added automatic GitHub Releases for version increases on `main`, with direct downloads of the verified standalone HTML and its self-extracting variant.

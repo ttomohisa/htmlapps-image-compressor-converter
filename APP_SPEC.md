@@ -57,6 +57,7 @@
 
 - Light-only UI aligned with Browser Kitty / `htmlapps-template`.
 - The Start screen introduces PNG, JPEG and WebP compression and conversion in a short paragraph above the image picker. Four purpose presets follow the picker.
+- After loading images, the header, workbench and footer share the same content width and side padding. The drop icon points down into the tray.
 - Desktop Workbench uses three areas: image list, comparison preview and optimization settings.
 - Desktop drop area states that multiple selection is supported and offers `Ctrl+V` clipboard guidance.
 - Mobile file input states that multiple image selection is supported without desktop-only drag/drop or keyboard guidance.
@@ -69,6 +70,7 @@
 ## Responsive dialogs
 
 - Native modal dialogs lock background page scrolling while open and restore normal scrolling on dismissal.
+- Help starts with three short steps using the actions visible on the current screen. Separate expandable topics cover multiple images, formats and size limits, and privacy.
 - Help keeps its heading and Close fixed while only its body scrolls within the available viewport and safe areas. Preserve the existing Export and Viewer shell allocations. Confirmation uses its own fixed header and internally scrolling body so short/narrow action buttons remain reachable.
 - The narrow Viewer toolbar reserves its existing button widths while its zoom range can shrink; the comparison range stays inside the toolbar. Export grid/code content has zero-minimum containment instead of forcing horizontal overflow.
 - At widths up to 420px, the title/version wrap without shrinking language or Help actions. Preserve the brand artwork.

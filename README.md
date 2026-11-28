@@ -60,28 +60,28 @@ For a smaller download, choose the [self-extracting HTML](https://github.com/tto
 
 ## Usage
 
-1. Add one or more PNG, JPEG or WebP images. On desktop, you can also paste screenshots or copied images with **Ctrl+V**. The file picker supports multiple selection on desktop and mobile.
-2. Choose a purpose such as **Website**, **Photo**, **Screenshot** or **Size limit**.
-3. For upload limits, enable **Target size**, enter the maximum KB and choose **Appearance first** or **Size first**.
-4. Run **Smart Optimize**. For a specific format, resize rule or quality ceiling, use **Advanced settings** and **Convert with settings**. Turn off **Keep source if output is larger** when the output format must change.
-5. Review Before / After and the batch summary. Check the output size before uploading. Some limits cannot be reached.
-6. Save the current image, save the batch as a ZIP, or open **Export** for code and web assets.
+1. Use **Choose images** to add PNG, JPEG or WebP files.
+2. On desktop, choose a preset and select **Smart Optimize**. On a phone, tap **Compress** in the bottom bar.
+3. Compare the preview and file size, then save. On a phone, **View results** opens the preview.
 
-### Save checked outputs
+### Choose a format or size limit
 
-Use the checkbox beside each image to include its available output, then choose **Save checked ZIP**. **All / None** changes only available outputs. New images start checked, and their checks become eligible after conversion. Checks stay separate from the preview and **Remove selected**, survive reprocessing, and are kept only for this session. The dedicated action always creates a ZIP, even for one image; the existing current-image and all-output actions keep their behavior.
+- For an upload limit, enable **Target size**, enter the limit in KB and check the file size after conversion. Choose **Appearance first** or **Size first** to set your priority.
+- To set the format, choose it in **Advanced settings** and select **Convert with settings**. Turn off **Keep source if output is larger** to always save in the selected format.
 
-The archive keeps image order and relative folders. Exact duplicate paths receive numbered suffixes such as `photo (3).webp`; existing names such as `photo (2).webp` are reserved. Edited output names remain unchanged. ZIP paths are case-sensitive.
+Smart Optimize stays within your quality limit. If no format meets its quality threshold, it picks the closest visual match. Browsers without WebP encoding use PNG for transparent images or JPEG for opaque ones.
 
-### Before / After comparison
+### Save several images as a ZIP
 
-Use **Compare JPEG / PNG / WebP** to see the dimensions and file size you would save under the current settings. Cards indicate when the original would be kept or the size limit exceeded. Select a card to use that result.
+Check the images you want and choose **Save checked ZIP**. This also works for a single image. **All / None** changes the selection for images that have finished converting.
 
-Smart Optimize respects the quality ceiling. When no candidate meets its visual threshold, it uses the closest measured match. A browser without WebP encoding can still convert to JPEG or, for transparent images, PNG.
+The ZIP keeps the original folders. Files with the same name in the same folder receive numbered suffixes in the ZIP.
 
-The draggable divider shows the original on the left and the output on the right in both the workbench and the large preview. With high-quality compression, visible differences can be extremely small even when the file-size reduction is substantial.
+### Compare image quality
 
-Use **Highlight differences** to generate an amplified pixel-difference view when you want to verify where the converted image differs from the source.
+Drag the divider to see the original on the left and the result on the right. Use **Highlight differences** to see small changes.
+
+Choose **Compare JPEG / PNG / WebP** to see the file size and dimensions for each format under your current settings. Select the result you want to save.
 
 ### Developer exports
 

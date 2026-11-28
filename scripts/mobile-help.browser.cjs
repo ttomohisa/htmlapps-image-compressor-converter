@@ -54,6 +54,23 @@ async function main() {
 
             await page.locator('#helpButton').click();
             const body = page.locator('#helpDialog .dialog-body');
+            assert.equal(await page.locator('#helpCloseButton').getAttribute('aria-label'), language === 'ja' ? '閉じる' : 'Close', label);
+            const steps = body.locator('ol > li');
+            assert.equal(await steps.count(), 3, label);
+            const instructions = await steps.allInnerTexts();
+            const action = width <= 720 ? await page.locator('#mobileProcessButton span').textContent() : 'Smart Optimize';
+            assert.ok(instructions[1].includes(action), label + ': help names the visible conversion action');
+            assert.ok(instructions.every(step => step.length <= (language === 'ja' ? 40 : 80)), label + ': concise steps');
+            const topics = body.locator('details');
+            assert.equal(await topics.count(), 3, label);
+            for (const topic of await topics.all()) {
+              const summary = topic.locator('summary');
+              await summary.focus();
+              await summary.press('Enter');
+              assert.equal(await topic.evaluate(el => el.open), true, label);
+              await summary.press('Enter');
+              assert.equal(await topic.evaluate(el => el.open), false, label);
+            }
             assert.ok(await body.evaluate(el => el.lastElementChild.matches('#buildInfo')), label);
             assert.equal(await page.locator(buildSelector).count(), 1, label);
             assert.equal(await page.locator(buildSelector).isVisible(), true, label);

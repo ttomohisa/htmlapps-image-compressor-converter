@@ -31,6 +31,31 @@ test('keyboard activation opens the file picker belonging to the focused button'
   }
 });
 
+test('workbench header and footer align with the image workspace after adding a file', async () => {
+  await page.locator('#fileInput').setInputFiles(await png());
+  await page.locator('body.has-items').waitFor();
+  for (const width of [1920, 1360, 1024, 721, 720, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    const edges = await page.evaluate(() => {
+      function contentEdges(selector) {
+        const el = document.querySelector(selector);
+        const box = el.getBoundingClientRect();
+        const css = getComputedStyle(el);
+        return [box.left + parseFloat(css.paddingLeft), box.right - parseFloat(css.paddingRight)];
+      }
+      return {
+        main: contentEdges('.app-layout'),
+        header: contentEdges('.header-inner'),
+        footer: contentEdges('footer')
+      };
+    });
+    for (const name of width > 720 ? ['header', 'footer'] : ['header']) {
+      edges[name].forEach((edge, i) => assert.ok(Math.abs(edge - edges.main[i]) <= 1,
+        width + 'px ' + name + ' edge ' + edge + ' should align with ' + edges.main[i]));
+    }
+  }
+});
+
 test('format cards show the size and dimensions that are actually selected under a size limit', async () => {
   await page.locator('#fileInput').setInputFiles(path.resolve(__dirname, '../assets/screenshot.png'));
   await page.locator('[data-preset="upload"]').click();
